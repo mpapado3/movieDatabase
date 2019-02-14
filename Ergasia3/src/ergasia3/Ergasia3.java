@@ -15,7 +15,8 @@ public class Ergasia3 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        StartWindow start=new StartWindow();
+        start.setVisible(true);
     }
     
 }
