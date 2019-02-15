@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="Ergasia3PU" transaction-type="RESOURCE_LOCAL">
+  <persistence-unit name="MovieDatabasePU" transaction-type="RESOURCE_LOCAL">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <class>JPA.FavoriteList</class>
-    <class>JPA.Movie</class>
-    <class>JPA.Genre</class>
+    <class>moviedatabase.entities.FavoriteList</class>
+    <class>moviedatabase.entities.Movie</class>
+    <class>moviedatabase.entities.Genre</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/myMovies"/>
-      <property name="javax.persistence.jdbc.user" value="myMovies"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/person"/>
+      <property name="javax.persistence.jdbc.user" value="pli24"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="pli24"/>
     </properties>
