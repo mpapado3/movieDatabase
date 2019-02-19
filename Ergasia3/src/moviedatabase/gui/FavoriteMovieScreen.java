@@ -39,7 +39,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     public FavoriteMovieScreen() {
         initComponents();
         editButton.setEnabled(false);
-        deleteButton.setEnabled(true);
+        deleteButton.setEnabled(false);
     }
     
    /* 
@@ -171,15 +171,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         int s = JOptionPane.showOptionDialog(null, panel, "Όνομα Λίστας",
                 JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,options,null);
        
-        if (s == JOptionPane.YES_OPTION){
-            DefaultListModel listModel = new DefaultListModel<>();
-            jList1 = new JList<>(listModel);
-            String name = textField.getText();
-            listModel.addElement(name);
-            add(jList1);
-           
-            //listModel.addElement(name);
-        }
+        
         
         jList1.addListSelectionListener(new ListSelectionListener() {
         @Override
