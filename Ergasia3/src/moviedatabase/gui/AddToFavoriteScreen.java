@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import moviedatabase.MoviePOJO;
 import moviedatabase.MovieTableModel;
+import moviedatabase.entities.FavoriteList;
 import moviedatabase.entities.Movie;
 
 
@@ -31,25 +32,22 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     List<Movie> myList;
     private Boolean textBool = false;
     private Boolean comboBool = false;
+    private Boolean insert = false;
     /**
      * Creates new form MainScreen
      */
     public AddToFavoriteScreen() {
         initComponents();
-        //yearTextInput = null;
+
         genreCombo.setSelectedIndex(-1);
-        /*if (yearTextInput != null && genreCombo.getSelectedItem() != null) {
-            searchBtn.setEnabled(true);
-        }*/
-        
+        favoriteListCombo.setSelectedIndex(-1);
+
         genreCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 comboBool = true;
                 enableSearch();
               }
-            });
-        
-        
+            }); 
         
     }
     
@@ -69,6 +67,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         myList = em.createNamedQuery("Movie.findByReleaseDateAndGenre").setParameter("releaseDate", year).setParameter("genreId", gen).getResultList();
+        em.getTransaction().commit();
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
         TableModel movieTableModel = new MovieTableModel(myList,columnNames);
         return movieTableModel;
@@ -89,6 +88,8 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         genreQuery = java.beans.Beans.isDesignTime() ? null : MovieDatabasePUEntityManager.createQuery("SELECT g FROM Genre g");
         genreList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : genreQuery.getResultList();
         addToFavorites1 = new moviedatabase.AddToFavorites();
+        favoriteListQuery = java.beans.Beans.isDesignTime() ? null : MovieDatabasePUEntityManager.createQuery("SELECT f FROM FavoriteList f");
+        favoriteListList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : favoriteListQuery.getResultList();
         jLabel1 = new javax.swing.JLabel();
         genreCombo = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -151,11 +152,36 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
 
         movieTable.setAutoCreateRowSorter(true);
         movieTable.getTableHeader().setReorderingAllowed(false);
+        movieTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                movieTableMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(movieTable);
 
         jLabel3.setText("Προσθήκη σε Λίστα");
 
-        favoriteListCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        favoriteListCombo.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(
+                JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof FavoriteList) {
+                    FavoriteList mec = (FavoriteList)value;
+                    setText(mec.getName());
+                }
+                return this;
+            }
+        });
+
+        jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, favoriteListList, favoriteListCombo);
+        bindingGroup.addBinding(jComboBoxBinding);
+
+        favoriteListCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                favoriteListComboItemStateChanged(evt);
+            }
+        });
 
         removeFromListBtn.setText("Αφαίρεση από Λίστα");
         removeFromListBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -178,7 +204,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
                         .addComponent(favoriteListCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(removeFromListBtn)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 315, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 359, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -222,6 +248,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         bindingGroup.bind();
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
@@ -251,14 +278,69 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
 
     private void removeFromListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromListBtnActionPerformed
         // TODO add your handling code here:
-        int[] selected;
-        selected = movieTable.getSelectedRows();
-        
-        for (int item: selected) {
-            System.out.println(myList.get(item).getTitle());
+        Movie selected = myList.get(movieTable.getSelectedRow());
+        if (selected.getFavoriteListId() != null) {
+            favoriteListCombo.setSelectedIndex(-1);
+            removeFromFavorite(selected);
         }
     }//GEN-LAST:event_removeFromListBtnActionPerformed
 
+    private void movieTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movieTableMouseClicked
+        // TODO add your handling code here:
+        Movie selected = myList.get(movieTable.getSelectedRow());
+        if (selected.getFavoriteListId() != null) {
+            favoriteListCombo.setSelectedItem(selected.getFavoriteListId());
+            insert = true;
+        } else {
+            favoriteListCombo.setSelectedIndex(-1);
+        }
+    }//GEN-LAST:event_movieTableMouseClicked
+
+    private void favoriteListComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_favoriteListComboItemStateChanged
+        // TODO add your handling code here:
+                if (evt.getStateChange() == 1) {
+            if (insert) {
+                FavoriteList favSelected = (FavoriteList) favoriteListCombo.getSelectedItem();
+                FavoriteList movSelected = (FavoriteList) myList.get(movieTable.getSelectedRow()).getFavoriteListId();
+                if (favSelected != movSelected) {
+                    System.out.println("Drop Selected");
+                    Object obj = favoriteListCombo.getSelectedItem();
+                    FavoriteList fav = (FavoriteList) obj;
+                    Movie selected = myList.get(movieTable.getSelectedRow());
+                    //System.out.println(selected.getTitle()+" "+fav.getId());
+                    addToFavorite(fav, selected);
+                    System.out.println("Added to DB");
+                    insert = false;
+                }
+            }
+        }
+    }//GEN-LAST:event_favoriteListComboItemStateChanged
+
+        private void addToFavorite(FavoriteList fav, Movie mov) {
+        EntityManager em; // Ο EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
+        
+        em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
+        Movie mov2 = em.find(Movie.class, mov.getId());
+        em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
+        mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
+        mov.setFavoriteListId(fav);
+        em.getTransaction().commit();// κάνω commit το query
+    }
+        
+        private void removeFromFavorite(Movie mov) {
+        EntityManager em; // Ο EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
+        
+        em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
+        Movie mov2 = em.find(Movie.class, mov.getId());
+        em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
+        mov2.setFavoriteListId(null);
+        mov.setFavoriteListId(null);
+        em.getTransaction().commit();// κάνω commit το query
+    }
+        
+        
     private Date getDateFromText(JTextField yearSearchInput) {
         String dateText = yearSearchInput.getText();
         Date yearDate = null;
@@ -311,6 +393,8 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private moviedatabase.AddToFavorites addToFavorites1;
     private javax.swing.JButton clearBtn;
     private javax.swing.JComboBox<String> favoriteListCombo;
+    private java.util.List<moviedatabase.entities.FavoriteList> favoriteListList;
+    private javax.persistence.Query favoriteListQuery;
     private javax.swing.JComboBox<String> genreCombo;
     private java.util.List<moviedatabase.entities.Genre> genreList;
     private javax.persistence.Query genreQuery;
