@@ -7,20 +7,25 @@ package moviedatabase.gui;
 
 
 
-import java.util.List;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import static java.util.Collections.list;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+import javax.swing.table.TableModel;
+import moviedatabase.MovieTableModel;
+import moviedatabase.service.FavoriteListJPA;
+
 
 
 /**
@@ -29,9 +34,6 @@ import javax.swing.event.ListSelectionListener;
  */
 public class FavoriteMovieScreen extends javax.swing.JFrame {
 
-   
-
-    
     
     /**
      * Creates new form favoriteMovieScreen
@@ -41,7 +43,10 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         editButton.setEnabled(false);
         deleteButton.setEnabled(false);
     }
+
     
+   DefaultListModel<String> model = new DefaultListModel<>();
+   
    /* 
    private void enableDeleteButton(){
         if (){
@@ -66,7 +71,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         deleteButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        submitButton = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
 
@@ -93,14 +97,12 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
             }
         });
 
-        jScrollPane1.setViewportView(jList1);
-
-        submitButton.setText("Επιλογή Λίστας");
-        submitButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                submitButtonActionPerformed(evt);
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
             }
         });
+        jScrollPane1.setViewportView(jList1);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -123,7 +125,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 780, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(submitButton)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -147,9 +148,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                         .addComponent(editButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(deleteButton)))
-                .addGap(18, 18, 18)
-                .addComponent(submitButton)
-                .addGap(18, 18, 18)
+                .addGap(68, 68, 68)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(225, Short.MAX_VALUE))
         );
@@ -157,44 +156,68 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    /*
+    private void jListMouseClicked(java.awt.event.MouseEvent evt){
+        TableModel movieTableModel = createTable();
+        movieTable.setModel(movieTableModel);
+    }
+    */
     
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
-      
        
-        Object[] options = { "Αποθήκευση", "Ακύρωση" };
-      
-        JPanel panel = new JPanel();
-        panel.add(new JLabel("Δώσε όνομα λίστας"));
-        JTextField textField = new JTextField(10);
-        panel.add(textField);
-        
-        int s = JOptionPane.showOptionDialog(null, panel, "Όνομα Λίστας",
-                JOptionPane.YES_NO_OPTION,JOptionPane.PLAIN_MESSAGE,null,options,null);
-       
-        
-        
-        jList1.addListSelectionListener(new ListSelectionListener() {
-        @Override
-        public void valueChanged(ListSelectionEvent e)
-        {
-        if(!e.getValueIsAdjusting()) {
-            /*
-            final List<String> selectedValuesList = jList1.getSelectedValuesList();
-            System.out.println(selectedValuesList);
-            */
-            String selectedName = jList1.getSelectedValue();
-                    textField.setText(selectedName);
-                    
-            }
-        }
-    });
-        
+                JFrame f = new JFrame("Όνομα Λίστας"); 
+					//save button
+		JButton saveButton = new JButton("Αποθήκευση");    
+		saveButton.setBounds(30,100,120, 40);
+                JButton cancelButton = new JButton("Ακύρωση");    
+		cancelButton.setBounds(150,100,120, 40);
+					//enter name label
+		JLabel label = new JLabel();		
+		label.setText("Δώσε όνομα λίστας");
+		label.setBounds(30, 30, 100, 20);
+				//textfield to enter name
+		JTextField textfield= new JTextField(10);
+		textfield.setBounds(30, 60, 150, 30);
+                
+		f.add(textfield);
+		f.add(label);
+		f.add(saveButton);
+		f.setSize(400,400);
+                f.add(cancelButton);
+		f.setLayout(null);    
+		f.setVisible(true);    
+		
+		//savebutton listener
+		saveButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+                            
+                            
+                            jList1.setModel(model);
+                            String name = textfield.getText();
+                            if (textfield.getText().equals("")) {
+                                JOptionPane.showMessageDialog(null, "Μη έγκυρο όνομα", "Failure", JOptionPane.ERROR_MESSAGE);
+                                
+                            }else{
+                                model.addElement(name.trim());
+                                FavoriteListJPA fl = new FavoriteListJPA();
+                                fl.createFavouriteList(name);
+                            }
+                            f.dispose();
+                            System.out.println(model);
+			}       
+	      });
+                 //cancelButton listener
+                 cancelButton.addActionListener(new ActionListener() {
+	        	public void actionPerformed(ActionEvent arg0) {  
+                            f.dispose(); 
+                        }
+                    });
+                 
+           
     }//GEN-LAST:event_createButtonActionPerformed
        
-    private void submitButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_submitButtonActionPerformed
-
+   
+      
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_editButtonActionPerformed
@@ -208,7 +231,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE, null,
             options,options[1]);
         
-            DefaultListModel model = (DefaultListModel) jList1.getModel();
+        DefaultListModel model = (DefaultListModel) jList1.getModel();
         int selectedIndex = jList1.getSelectedIndex();
         if (selectedIndex != -1) {
              model.remove(selectedIndex);
@@ -217,6 +240,12 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         
     }//GEN-LAST:event_deleteButtonActionPerformed
 
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+   
+             
+    }//GEN-LAST:event_jList1ValueChanged
+     
+    
   
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -261,6 +290,5 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
-    private javax.swing.JButton submitButton;
     // End of variables declaration//GEN-END:variables
 }

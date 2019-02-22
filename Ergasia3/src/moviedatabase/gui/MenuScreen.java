@@ -5,6 +5,8 @@
  */
 package moviedatabase.gui;
 
+import moviedatabase.service.MovieDatabase;
+
 /**
  *
  * @author dim_zachos
@@ -38,6 +40,11 @@ public class MenuScreen extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         saveMovieButton.setText("Ανάκτηση και Αποθήκευση Ταινιών");
+        saveMovieButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveMovieButtonActionPerformed(evt);
+            }
+        });
 
         listButton.setText("Διαχείριση Αγαπημένων Ταινιών");
         listButton.addActionListener(new java.awt.event.ActionListener() {
@@ -110,6 +117,11 @@ public class MenuScreen extends javax.swing.JFrame {
         AddToFavoriteScreen s = new AddToFavoriteScreen();
         s.setVisible(true);
     }//GEN-LAST:event_searchButtonActionPerformed
+
+    private void saveMovieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMovieButtonActionPerformed
+        MovieDatabase m = new MovieDatabase();
+        
+    }//GEN-LAST:event_saveMovieButtonActionPerformed
 
     /**
      * @param args the command line arguments

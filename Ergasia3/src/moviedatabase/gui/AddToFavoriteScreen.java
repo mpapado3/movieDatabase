@@ -121,6 +121,12 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, genreList, genreCombo);
         bindingGroup.addBinding(jComboBoxBinding);
 
+        genreCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                genreComboActionPerformed(evt);
+            }
+        });
+
         jLabel2.setText("Έτος Κυκλοφορίας");
 
         yearTextInput.setColumns(8);
@@ -155,6 +161,14 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         });
 
         movieTable.setAutoCreateRowSorter(true);
+        movieTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
         movieTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(movieTable);
 
@@ -267,6 +281,10 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private void yearTextInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearTextInputActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_yearTextInputActionPerformed
+
+    private void genreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_genreComboActionPerformed
 
     private Date getDateFromText(JTextField yearSearchInput) {
         String dateText = yearSearchInput.getText();

@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import org.json.*;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
@@ -149,5 +148,7 @@ public class MovieDatabase {
 
             return response.toString();
     }
+
+  
     
 }
