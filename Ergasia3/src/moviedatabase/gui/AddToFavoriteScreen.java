@@ -293,12 +293,13 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
             insert = true;
         } else {
             favoriteListCombo.setSelectedIndex(-1);
+            insert = true;
         }
     }//GEN-LAST:event_movieTableMouseClicked
 
     private void favoriteListComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_favoriteListComboItemStateChanged
         // TODO add your handling code here:
-                if (evt.getStateChange() == 1) {
+        if (evt.getStateChange() == 1) {
             if (insert) {
                 FavoriteList favSelected = (FavoriteList) favoriteListCombo.getSelectedItem();
                 FavoriteList movSelected = (FavoriteList) myList.get(movieTable.getSelectedRow()).getFavoriteListId();
