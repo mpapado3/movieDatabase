@@ -16,6 +16,7 @@ import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import moviedatabase.MoviePOJO;
 import moviedatabase.MovieTableModel;
 import moviedatabase.entities.FavoriteList;
@@ -40,7 +41,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         initComponents();
 
         genreCombo.setSelectedIndex(-1);
-        favoriteListCombo.setSelectedIndex(-1);
+        favoriteListCombo.setSelectedIndex(-1);      
 
         genreCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -255,6 +256,10 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         TableModel movieTableModel = createTable();
         movieTable.setModel(movieTableModel);
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(movieTable.getModel());
+        sorter.setSortable(0, false);
+        sorter.setSortable(2, false);
+        movieTable.setRowSorter(sorter);
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
