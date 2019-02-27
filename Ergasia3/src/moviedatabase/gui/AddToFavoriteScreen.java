@@ -31,18 +31,20 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     
     private MoviePOJO oneMovie;
     List<Movie> myList;
-    private Boolean textBool = false;
-    private Boolean comboBool = false;
-    private Boolean insert = false;
+    private Boolean textBool = false; //Μεταβλητή που θα χρησιμοποιηθεί για έλεγχο του Year Input
+    private Boolean comboBool = false; //Μεταβλητή που θα χρησιμοποιηθεί αν έχει επιλεγεί genre
+    private Boolean insert = false; //Μεταβλητή που δείχνει ότι έχει επιλεγεί κάποια γραμμή στον πίνακα
     /**
      * Creates new form MainScreen
      */
     public AddToFavoriteScreen() {
         initComponents();
 
-        genreCombo.setSelectedIndex(-1);
-        favoriteListCombo.setSelectedIndex(-1);      
-
+        genreCombo.setSelectedIndex(-1); //Ορίζουμε το index -1 ώστε να μην δείχνει κάποια κατηγορία στην αρχή
+        favoriteListCombo.setSelectedIndex(-1); //Ορίζουμε το index -1 ώστε να μην δείχνει κάποια λίστα στην αρχή
+        
+        //Βάζουμε ένα action Listener στο combo των genre ώστε όταν γίνει αλλαγή
+        //να ενεργοποιεί την μεταβλητή comboBool και να καλεί την μέθοδο enableSearch()
         genreCombo.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 comboBool = true;
@@ -53,7 +55,9 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }
     
     private void enableSearch() {
+        //Γίνεται έλεγχος αν οι 2 μεταβλητές είναι true
         if (textBool == true && comboBool == true) {
+            //και εφόσον είναι ενεργοποιεί το κουμπί search
             searchBtn.setEnabled(true);
         }
     }
@@ -64,10 +68,14 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         Genre gen = (Genre) obj;
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        int year = Integer.parseInt(yearTextInput.getText());
         em = emf.createEntityManager();
         em.getTransaction().begin();
-        myList = em.createNamedQuery("Movie.findByReleaseDateAndGenre").setParameter("releaseDate", year).setParameter("genreId", gen).getResultList();
+        try {
+            int year = Integer.parseInt(yearTextInput.getText());
+            myList = em.createNamedQuery("Movie.findByReleaseDateAndGenre").setParameter("releaseDate", year).setParameter("genreId", gen).getResultList();
+        } catch (Exception e) {
+            System.out.println("Wrong");
+        }
         em.getTransaction().commit();
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
         TableModel movieTableModel = new MovieTableModel(myList,columnNames);
@@ -312,9 +320,12 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
                     System.out.println("Drop Selected");
                     Object obj = favoriteListCombo.getSelectedItem();
                     FavoriteList fav = (FavoriteList) obj;
-                    Movie selected = myList.get(movieTable.getSelectedRow());
-                    //System.out.println(selected.getTitle()+" "+fav.getId());
-                    addToFavorite(fav, selected);
+                    try {
+                        Movie selected = myList.get(movieTable.getSelectedRow());
+                        addToFavorite(fav, selected);
+                    } catch (Exception e) {
+                        System.out.println("");            
+                    }
                     System.out.println("Added to DB");
                     insert = false;
                 }
@@ -325,25 +336,32 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         private void addToFavorite(FavoriteList fav, Movie mov) {
         EntityManager em; // Ο EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
-        
         em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
-        Movie mov2 = em.find(Movie.class, mov.getId());
-        em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-        mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
-        mov.setFavoriteListId(fav);
-        em.getTransaction().commit();// κάνω commit το query
+        try {
+            Movie mov2 = em.find(Movie.class, mov.getId());
+            em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
+            mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
+            mov.setFavoriteListId(fav);
+            em.getTransaction().commit();// κάνω commit το query
+        } catch (Exception e) {
+            System.out.println("");
+        }
+       
     }
         
         private void removeFromFavorite(Movie mov) {
         EntityManager em; // Ο EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
-        
         em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
-        Movie mov2 = em.find(Movie.class, mov.getId());
-        em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-        mov2.setFavoriteListId(null);
-        mov.setFavoriteListId(null);
-        em.getTransaction().commit();// κάνω commit το query
+        try {
+            Movie mov2 = em.find(Movie.class, mov.getId());
+            em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
+            mov2.setFavoriteListId(null);
+            mov.setFavoriteListId(null);
+            em.getTransaction().commit();// κάνω commit το query
+        } catch (Exception e) {
+            System.out.println("");
+        }
     }
         
         
