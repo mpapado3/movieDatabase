@@ -57,28 +57,30 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private void enableSearch() {
         //Γίνεται έλεγχος αν οι 2 μεταβλητές είναι true
         if (textBool == true && comboBool == true) {
-            //και εφόσον είναι ενεργοποιεί το κουμπί search
+            //και εφόσον είναι true ενεργοποιεί το κουμπί search
             searchBtn.setEnabled(true);
         }
     }
     
     private TableModel createTable() {
+        //Αρχικοποιούμε την λίστα myList
         myList = new ArrayList();
-        Object obj = genreCombo.getSelectedItem();
-        Genre gen = (Genre) obj;
-        EntityManager em;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
+        //Αποθηκεύουμε το genre που είναι επιλεγμένο σε μεταβλητή
+        Object gen = (Genre) genreCombo.getSelectedItem();
+        EntityManager em; // Ο EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
+        em = emf.createEntityManager(); //αρχικοποιούμε τη μεταβλητή em
+        em.getTransaction().begin(); //ξεκινάμε μια καινούργια συναλλαγή για να τραβήξουμε από τη βάση δεδομένων τις ταινίες
         try {
-            int year = Integer.parseInt(yearTextInput.getText());
+            int year = Integer.parseInt(yearTextInput.getText()); //Μετατρέπουμε την ημερομηνία σε αριθμό
+            //Με κλήση στην βάση με κάνουμε ερώτημα να μας φέρει τις ταινίες με την ημερομηνία που όρισαμε και την κατηγορία
             myList = em.createNamedQuery("Movie.findByReleaseDateAndGenre").setParameter("releaseDate", year).setParameter("genreId", gen).getResultList();
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             System.out.println("Wrong");
         }
-        em.getTransaction().commit();
-        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
-        TableModel movieTableModel = new MovieTableModel(myList,columnNames);
+        em.getTransaction().commit(); //Κάνουμε commit την συναλλαγή
+        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"}; //Οι τίτλοι από τις στήλες
+        TableModel movieTableModel = new MovieTableModel(myList,columnNames); //Δημιουργούμε ενα νέο tableModel με την λίστα των ταινιών και τους τίτλους από τις στήλες
         return movieTableModel;
     }
     
