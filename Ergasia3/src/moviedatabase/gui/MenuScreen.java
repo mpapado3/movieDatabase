@@ -5,6 +5,9 @@
  */
 package moviedatabase.gui;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import moviedatabase.service.MovieDatabase;
 
 /**
@@ -18,6 +21,7 @@ public class MenuScreen extends javax.swing.JFrame {
      */
     public MenuScreen() {
         initComponents();
+        
     }
 
     /**
@@ -120,7 +124,11 @@ public class MenuScreen extends javax.swing.JFrame {
 
     private void saveMovieButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveMovieButtonActionPerformed
         MovieDatabase m = new MovieDatabase();
-        
+        try {
+            m.restoreMovies();
+        } catch (Exception ex) {
+            Logger.getLogger(MenuScreen.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_saveMovieButtonActionPerformed
 
     /**

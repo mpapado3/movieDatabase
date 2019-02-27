@@ -37,7 +37,8 @@ public class MovieDatabase {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception {
+
+    public String restoreMovies() throws Exception {
             // TODO code application logic here
 
         String webpage = mainUrl + genreUrl + api;        
@@ -58,10 +59,12 @@ public class MovieDatabase {
         }
         
         getMovies();
+        return "OK";
         
     }
     
-    private static void getMovies() {
+    
+    private static String getMovies() {
         int x = 1;
         while (x<40) {
                     
@@ -102,11 +105,13 @@ public class MovieDatabase {
                 
             } catch (Exception ex) {
                 Logger.getLogger(MovieDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                return "Σφάλμα, δε έγινε ανάκτηση των ταινιών";
             }
             
         x++;
         
         }
+            return "Η βάση γέμισε με δεδομένα";
     }
     
     private static void addToDB(Object gen) {
@@ -120,7 +125,7 @@ public class MovieDatabase {
         em.getTransaction().commit();// κάνω commit το query
     }
     
-    private static void deleteFromDB() {
+    private static int deleteFromDB() {
         EntityManager em; // Ο EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
 
@@ -128,8 +133,10 @@ public class MovieDatabase {
         em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
         em.createNamedQuery("Movie.deleteAll").executeUpdate();
         em.createNamedQuery("FavoriteList.deleteAll").executeUpdate();
-        em.createNamedQuery("Genre.deleteAll").executeUpdate();
+        int n = em.createNamedQuery("Genre.deleteAll").executeUpdate();
         em.getTransaction().commit();
+        
+        return n;
     }
 
     public static String getText(String url) throws Exception {
@@ -149,6 +156,4 @@ public class MovieDatabase {
             return response.toString();
     }
 
-  
-    
 }

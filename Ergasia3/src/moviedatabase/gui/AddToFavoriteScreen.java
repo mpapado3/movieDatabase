@@ -49,8 +49,6 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
               }
             });
         
-        
-        
     }
     
     private void enableSearch() {
