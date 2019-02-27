@@ -16,9 +16,7 @@ import java.util.List;
 public class AddToFavorites {
     
     public static void checkMovies(List<MoviePOJO> selectedMovies) {
-        selectedMovies.forEach((movie) -> {
-            System.out.println(movie.getTitle());
-        });
+
     }
     
 }
