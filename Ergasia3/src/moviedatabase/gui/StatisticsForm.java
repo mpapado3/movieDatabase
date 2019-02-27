@@ -162,8 +162,13 @@ public class StatisticsForm extends javax.swing.JFrame {
         FList = em.createNamedQuery("FavoriteList.findAll").getResultList();
         for (FavoriteList fav: FList) {
             float q = (float) em.createQuery("select max(m.rating) from Movie m where m.favoriteListId = :favId").setParameter("favId", fav).getSingleResult();
-            Movie mov = (Movie) em.createNamedQuery("Movie.findByRatingAndFavoriteList").setParameter("rating", q).setParameter("favoriteList", fav).getSingleResult();
-            movieList.add(mov);
+            try {
+                 Movie mov = (Movie) em.createNamedQuery("Movie.findByRatingAndFavoriteList").setParameter("rating", q).setParameter("favoriteList", fav).getSingleResult();
+                 movieList.add(mov);
+            } catch (Exception e) {
+                System.out.println("Favorite List "+fav.getName()+" is empty");
+            }
+
         }
         em.getTransaction().commit();
         String[] columnNames = {"Τίτλος ταινίας"};
