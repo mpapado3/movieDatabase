@@ -35,8 +35,8 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         initComponents();
         //        List<FavoriteList> fl = FavoriteListJPA.findAll();                      //κλήση της μεθόδου FavoriteListJPA.findAll() για να φέρει τα ονόματα από τη βάση
         //ArrayList<String> list  = new ArrayList<String>();
-        editButton.setEnabled(false);                   //αρχικοποίηση editButton
-        deleteButton.setEnabled(false);                  //αρχικοποίηση deleteButton
+        editButton.setEnabled(false);                                            //αρχικοποίηση editButton
+        deleteButton.setEnabled(false);                                          //αρχικοποίηση deleteButton
         init();
     }
 
@@ -51,19 +51,27 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
 
         createButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
-        deleteButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        deleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         createButton.setText("Δημιουργία Λίστας");
+        createButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createButtonActionPerformed(evt);
+            }
+        });
 
         editButton.setText("Επεξεργασία Λίστας");
-
-        deleteButton.setText("Διαγραφή");
+        editButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                editButtonActionPerformed(evt);
+            }
+        });
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         jScrollPane1.setViewportView(jList1);
@@ -81,6 +89,13 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
+        deleteButton.setText("Διαγραφή");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -90,14 +105,14 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(31, 31, 31))
         );
         layout.setVerticalGroup(
@@ -125,7 +140,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     private void init() {
-        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        //jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         getAllFavoriteLists();
     }
 
@@ -193,7 +208,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         });
 
     }//GEN-LAST:event_createButtonActionPerformed
-    //editButton listener
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         JFrame f = new JFrame("Επεξεργασία ονόματος λίστας");                   //δημιουργία του frame με title                                                                
@@ -222,8 +236,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         saveButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String name = textfield1.getText();
-
-                int selectedIndex = jList1.getSelectedIndex();                          //deleteButton listener
+                int selectedIndex = jList1.getSelectedIndex();
                 String selectedString = jList1.getSelectedValue();
 
                 if (textfield1.getText().equals("")) {
@@ -231,11 +244,9 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 } else {
                     // model.setElementAt(name, index);
                     // model.add(index, name);
-                    //editFavouriteList(new FavoriteList();
-
+                   
                     FavoriteListJPA.editFavouriteList(new FavoriteList(keys.get(selectedIndex), name));
                     getAllFavoriteLists();
-
                     // jList1.setModel(model);
                 }
                 f.dispose();
@@ -248,30 +259,31 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 f.dispose();
             }
         });
-    }
-
+    }//GEN-LAST:event_editButtonActionPerformed
+//deleteButton listener
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
+        
         int selectedIndex = jList1.getSelectedIndex();                          //deleteButton listener
         String selectedString = jList1.getSelectedValue();
 
         System.out.println("selectedIndex: " + selectedIndex + " " + selectedString);
-
+        
         Object[] options = {"Ναι", "Ακύρωση"};
-        JOptionPane.showOptionDialog(null,
+        int j = JOptionPane.showOptionDialog(null,
                 "Είστε σίγουροι ότι θέλετε να γίνει διαγραφή;",
                 "Διαγραφή",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 options, options[1]);
-        // if (selectedIndex != -1) {
-        //model.remove(selectedIndex);
-
-        deleteFavouriteList(new FavoriteList(keys.get(selectedIndex), selectedString));
-        getAllFavoriteLists();
-        //        } else {
-        //
-        //        }
-    }
-        /*
+        if(j == JOptionPane.YES_OPTION){
+           
+            deleteFavouriteList(new FavoriteList(keys.get(selectedIndex), selectedString));
+            getAllFavoriteLists();
+        }else{
+            JOptionPane.showMessageDialog(null, "Η διαγραφή της λίστας ακυρώθηκε");
+        }
+    }//GEN-LAST:event_deleteButtonActionPerformed
+  
+    /*
     private TableModel createTable() {
         list = new ArrayList();
         Object obj = jList1.getSelectedValue();
@@ -285,20 +297,20 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         TableModel movieTableModel = new MovieTableModel(list,columnNames);
         return movieTableModel;
     }
-         */
+    */
+     
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {
+        if (!evt.getValueIsAdjusting()) {
 
-     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {
-        if (evt.getValueIsAdjusting() == false) {
-            if (jList1.getSelectedIndex() > 0) {
-                //Selection, enable the edit button.
-                editButton.setEnabled(true);
-                deleteButton.setEnabled(true);
-                //     }else if  {
-            }
-
-        }//GEN-LAST:event_jList1ValueChanged
+                 jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            //Selection, enable the edit button.
+              editButton.setEnabled(true);
+            //     }else if  {
+            
+        }
     }
-    
+
+     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

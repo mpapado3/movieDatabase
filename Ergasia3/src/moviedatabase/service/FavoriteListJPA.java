@@ -38,11 +38,10 @@ public class FavoriteListJPA {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();                         //αρχικοποίηση της μεταβλητή em
         em.getTransaction().begin();                            //καινούργια συναλλαγή για να γίνει αποθήκευση στη βάση Favorite_List
-        try {
-            em.persist(fl);
+        try {           
+            em.persist(fl);                                     // δημιουργία τoυ query 
         } catch (Exception e) {
         }
-                                         // δημιουργία τoυ query 
         em.getTransaction().commit();
         em.close();                                             //κλείσιμο το EntityManager
     }
@@ -68,7 +67,7 @@ public class FavoriteListJPA {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();
-        FavoriteList d = em.find(FavoriteList.class, object.getId());           //αναζήτηση του ονόματος στη βάση βάση του id
+        FavoriteList d = em.find(FavoriteList.class, object.getId());           //αναζήτηση του ονόματος στη βάση αναζητώντας το id
         if (d == null) {                                                        //έλεγχος για το όνομα
             return ("Δε βρέθηκε το όνομα της λίστας στη βάση");                 //επιστροφή ανάλογου μηνύματος
         } else {
