@@ -42,72 +42,77 @@ public class MovieDatabase {
     public static void main(String[] args) throws Exception {
             // TODO code application logic here
 
-        String webpage = mainUrl + genreUrl + api;        
-        JSONObject obj = new JSONObject(getText(webpage));
-        JSONArray arr = obj.getJSONArray("genres");
+        String webpage = mainUrl + genreUrl + api;  //Συνεννόνουμε την διεύθυνση για να πάρουμε τα genre        
+        JSONObject obj = new JSONObject(getText(webpage)); //Διάβαζουμε το json σε ένα νέο json object
+        JSONArray arr = obj.getJSONArray("genres"); //Από το json που έχει επιστραφεί κρατάμε τον πίνακα με τα genres
         
-        deleteFromDB();
+        deleteFromDB(); //Καλούμε την μέθοδο που διαγράφει τους πίνακες της βάσης
         
-        for (int i=0;i<arr.length();i++) {
+        for (int i=0;i<arr.length();i++) { //Για κάθε εγγραφή του πίνακα ελέγχουμε
+                //Αν το πεδίο id είναι κάποιο εκ των 28, 10749 ή 878
                 if (arr.getJSONObject(i).getInt("id") == 28 || arr.getJSONObject(i).getInt("id") == 10749 || arr.getJSONObject(i).getInt("id") == 878) {
+                    //εκτυπώνουμε βοηθητικά στην κονσόλα τις επιλεγμένες κατηγορίες
                     System.out.print("Genre Name: "+arr.getJSONObject(i).getString("name")+"\n");
                     System.out.print("Genre ID: "+arr.getJSONObject(i).getInt("id")+"\n");
-                    Genre gen = new Genre();
-                    gen.setId(arr.getJSONObject(i).getInt("id"));
-                    gen.setName(arr.getJSONObject(i).getString("name"));
-                    addToDB(gen);
+                    Genre gen = new Genre(); //Δημιουργούμε ένα νέο entity Genre
+                    gen.setId(arr.getJSONObject(i).getInt("id")); //Ορίζουμε το id του σύμφωνα με το τρέχον
+                    gen.setName(arr.getJSONObject(i).getString("name")); //Ορίζουμε το όνομα σύμφωνα με το τρέχον
+                    addToDB(gen); //Καλούμε την μέθοδο για να κάνει την εισαγωγή στην βάση
                 }
         }
         
-        getMovies();
+        getMovies(); //Καλούμε την μέθοδο που διαβάζει τις ταινίες από την διεύθυνση του movieDatabase
         
-        JOptionPane.showMessageDialog(null, "Η ανάκτηση των δεδομένων ολοκληρώθηκε!"); //This is a popup window
+        JOptionPane.showMessageDialog(null, "Η ανάκτηση των δεδομένων ολοκληρώθηκε!"); //Εμφανίζουμε παράθυρο ότι έγινε η ανάγνωση από το site
     }
     
     private static void getMovies() {
-        int x = 1;
+        int x = 1; //Ορίζουμε βοηθητική μεταβλητή x και θέτουμε την τιμή της ίσον με 1
+        //Κάθε σελίδα που επιστρέφει μια κλήση του api έχει 40 ταινίες
         while (x<40) {
                     
-        String webpage = mainUrl + movieUrl + x + "&" + api;
+        String webpage = mainUrl + movieUrl + x + "&" + api; //Συνεννόνουμε την διεύθυνση με τον αριθμό της σελίδας
 
             try {
-                JSONObject movObj;
-                movObj = new JSONObject(getText(webpage));
-                JSONArray movArr = movObj.getJSONArray("results");
+                JSONObject movObj; //Δημιουργούμε ένα νέο json object
+                movObj = new JSONObject(getText(webpage)); //Και διαβάζουμε το αποτέλεσμα του api
+                JSONArray movArr = movObj.getJSONArray("results"); //Δημιουργούμε ένα νέο json πίνακα με τα αποτελέσματα των ταινιών
                 
+                //Για όλα τα αποτελέσματα την json array
                 for (int i=0; i<movArr.length(); i++) {
+                    //Ετυπώνουμε βοηθητικά στην κονσόλα το όνομα της ταινίας
                     System.out.print("Movie: " + movArr.getJSONObject(i).getString("title")+"\n");
                     
-                    Movie mov = new Movie();
-                    mov.setId(movArr.getJSONObject(i).getInt("id"));
-                    mov.setTitle(movArr.getJSONObject(i).getString("title"));
-                    String dt = movArr.getJSONObject(i).getString("release_date");
-                    SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-M-d");
-                    Date date=localDateFormat.parse(dt);
-                    mov.setReleaseDate(date);
-                    mov.setRating(movArr.getJSONObject(i).getFloat("vote_average"));
-                    String overview = movArr.getJSONObject(i).getString("overview");
-                    mov.setOverview(overview.substring(0, Math.min(overview.length(), 500))); 
-                    JSONArray gen = movArr.getJSONObject(i).getJSONArray("genre_ids");
+                    Movie mov = new Movie(); //Δημιουργούμε νέο entity για την ταινία
+                    mov.setId(movArr.getJSONObject(i).getInt("id")); //Προσθέτουμε το id
+                    mov.setTitle(movArr.getJSONObject(i).getString("title")); //Προσθέτουμε τον τίτλο
+                    String dt = movArr.getJSONObject(i).getString("release_date"); //Προσθέτουμε την ημερομηνία κυκλοφορίας σε text
+                    SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy-M-d"); //Μέσω μιας μεταβλητής simple date της μορφής yyyy-M-d 
+                    Date date=localDateFormat.parse(dt); //Τροποποιούμε την ημερομηνία σε σωστό φορμάτ
+                    mov.setReleaseDate(date); //Προσθέτουμε τη ημερομηνία στο entity
+                    mov.setRating(movArr.getJSONObject(i).getFloat("vote_average")); //Προσθέτουμε την αξιολόγηση
+                    String overview = movArr.getJSONObject(i).getString("overview"); //Προσθέτουμε την περίληψη σε text μεταβλητή
+                    mov.setOverview(overview.substring(0, Math.min(overview.length(), 500))); //Κόβουμε το μήκος του text στους 500 χαρακτήρες
+                    JSONArray gen = movArr.getJSONObject(i).getJSONArray("genre_ids"); //Σε μια νέα μεταβλητή αποθηκεύουμε τις κατηγορίες που υπάγεται η ταινία
+                    //Για κάθε κατηγορία που υπάρχει στην ταινία ελέγχουμε
                     for (int z=0;z<gen.length();z++) {
-                        int current = gen.getInt(z);
+                        int current = gen.getInt(z); //Αποθηκεύουμε το τρέχον Genre ID
+                        //και ελέγχουμε αν είναι κάποιο από τα 3 που μας ενδιαφέρει
                         if (current == 28 || current == 10749 || current == 878) {
-                            Genre newGen = new Genre(current);
-                            mov.setGenreId(newGen);
-                            break;
+                            Genre newGen = new Genre(current); //Τότε φτιάχνουμε ένα νέο genre με id από το τρέχον
+                            mov.setGenreId(newGen); //Και το προσθέτουμε στην τρέχουσα ταινία
+                            break; //Και διακόπτουμε το for μιας που δεν μας ενδιαφέρει αν υπάγεται και σε άλλο
                         }
                     }
                     
-                    addToDB(mov);
+                    addToDB(mov); //Καλούμε την μέθοδο addToDB για να προσθέσουμε την ταινία στην βάση
 
-                    }
-
-                
+                    }   
             } catch (Exception ex) {
                 Logger.getLogger(MovieDatabase.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-        x++;
+        x++; //Αυξάνουμε την μεταβλητή x κατά 1
         
         }
     }

@@ -81,7 +81,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         em.getTransaction().commit(); //Κάνουμε commit την συναλλαγή
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"}; //Οι τίτλοι από τις στήλες
         TableModel movieTableModel = new MovieTableModel(myList,columnNames); //Δημιουργούμε ενα νέο tableModel με την λίστα των ταινιών και τους τίτλους από τις στήλες
-        return movieTableModel;
+        return movieTableModel; //Επιστρέφουμε το table model.
     }
     
 
@@ -263,73 +263,65 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
-        TableModel movieTableModel = createTable();
-        movieTable.setModel(movieTableModel);
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(movieTable.getModel());
-        sorter.setSortable(0, false);
-        sorter.setSortable(2, false);
-        movieTable.setRowSorter(sorter);
+        TableModel movieTableModel = createTable(); //Δημιουργούμε ένα νέο πίνακα
+        movieTable.setModel(movieTableModel); //Ορίζουμε στον νέο αυτό πίνακα το table model
+        TableRowSorter<TableModel> sorter = new TableRowSorter<>(movieTable.getModel()); //Φτιάχνουμε ένα νέο sorter
+        sorter.setSortable(0, false); //Ορίζουμε ότι η πρώτη στήλη δεν θα κάνει sorting
+        sorter.setSortable(2, false); //Ορίζουμε ότι ούτε η 3η στήλη θα κάνει sorting
+        movieTable.setRowSorter(sorter); //Θέτουμε το sorter στον πίνακα που είχαμε δημιουργήσει
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
-        genreCombo.setSelectedIndex(-1);
-        yearTextInput.setText(null);
-        textBool = false;
-        comboBool = false;
-        searchBtn.setEnabled(false);
-        myList = new ArrayList();
-        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
-        TableModel movieTableModel = new MovieTableModel(myList,columnNames);
-        movieTable.setModel(movieTableModel);
+        genreCombo.setSelectedIndex(-1); //Ορίζουμε το index του comboBox στο -1 ώστε να είναι κενό
+        yearTextInput.setText(null); //Μηδενίζουμε το πεδίο που δίνουμε την χρονολογία
+        textBool = false; //Θέτουμε την μεταβλητή textBool ως false
+        comboBool = false; //Θέτουμε και την μεταβλητή comboBool ως false
+        searchBtn.setEnabled(false); //Απενεργοποιούμε το κουμπί search
+        myList = new ArrayList(); //Η λίστα με τις ταινίες μηδενίζεται
+        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"}; //Ορίζουμε ξανά τους τίτλους από τις στήλες του πίνακα
+        TableModel movieTableModel = new MovieTableModel(myList,columnNames); //Δημιουργούμε ενα νέο tableModel με την κενή λίστα και τους τίτλους από τις στήλες
+        movieTable.setModel(movieTableModel); //Επιστρέφουμε το table model.
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void yearTextInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yearTextInputKeyTyped
-        // TODO add your handling code here:
-        textBool = true;
-        enableSearch();  
+        textBool = true; //Ενεργοποιούμε την μεταβλητή textBool
+        enableSearch(); //Καλούμε την μέθοδο enableSearch() για να δούμε αν μπορεί να ενεργοποιηθεί το κουμπί search
     }//GEN-LAST:event_yearTextInputKeyTyped
 
     private void removeFromListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromListBtnActionPerformed
-        // TODO add your handling code here:
-        Movie selected = myList.get(movieTable.getSelectedRow());
-        if (selected.getFavoriteListId() != null) {
-            favoriteListCombo.setSelectedIndex(-1);
-            removeFromFavorite(selected);
+        Movie selected = myList.get(movieTable.getSelectedRow()); //Δημιουργούμε βοηθητική μεταβλητή movie που θα αποθηκεύει την επιλεγμένη ταινία
+        if (selected.getFavoriteListId() != null) { //Ελέγχουμε αν το favorite list id της ταινίας δεν είναι null
+            favoriteListCombo.setSelectedIndex(-1); //και εφόσον δεν είναι θέτουμε το index του favorite list Combo στην τιμή -1
+            removeFromFavorite(selected); //και καλείται η μέθοδος removeFromFavorite με την επιλεγμένη ταινία
         }
     }//GEN-LAST:event_removeFromListBtnActionPerformed
 
     private void movieTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_movieTableMouseClicked
-        // TODO add your handling code here:
-        Movie selected = myList.get(movieTable.getSelectedRow());
-        if (selected.getFavoriteListId() != null) {
-            favoriteListCombo.setSelectedItem(selected.getFavoriteListId());
-            insert = true;
+        Movie selected = myList.get(movieTable.getSelectedRow()); //Δημιουργούμε βοηθητική μεταβλητή movie που θα αποθηκεύει την επιλεγμένη ταινία
+        if (selected.getFavoriteListId() != null) { //Ελέγχουμε αν το favorite list id της ταινίας δεν είναι null
+            favoriteListCombo.setSelectedItem(selected.getFavoriteListId()); //και εφόσον δεν είναι Θέτουμε το index του favorite list combo στην τιμή που έχει η κατηγορία της επιλεγμένης ταινίας
+            insert = true; //Έχει επιλεγεί ταινία
         } else {
-            favoriteListCombo.setSelectedIndex(-1);
-            insert = true;
+            favoriteListCombo.setSelectedIndex(-1); //Αν το favorite list id της ταινίας είναι null θέτουμε το index -1 για να είναι κενή η επιλογή
+            insert = true; //Έχει επιλεγεί ταινία
         }
     }//GEN-LAST:event_movieTableMouseClicked
 
     private void favoriteListComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_favoriteListComboItemStateChanged
-        // TODO add your handling code here:
-        if (evt.getStateChange() == 1) {
-            if (insert) {
-                FavoriteList favSelected = (FavoriteList) favoriteListCombo.getSelectedItem();
-                FavoriteList movSelected = (FavoriteList) myList.get(movieTable.getSelectedRow()).getFavoriteListId();
-                if (favSelected != movSelected) {
+        if (evt.getStateChange() == 1) { //Ελέγχουμε αν έχει αλλάξει το state του combo σε 1
+            if (insert) { //Αν η μεταβλητή insert είναι αληθής
+                FavoriteList favSelected = (FavoriteList) favoriteListCombo.getSelectedItem(); //Ορίζουμε μεταβλητή favList που αποθηκεύουμε την επιλεγμένη κατηγορία
+                FavoriteList movSelected = (FavoriteList) myList.get(movieTable.getSelectedRow()).getFavoriteListId(); //Ορίζουμε μεταβλητή favList που αποθηκεύουμε την κατηγορία της ταινίας
+                if (favSelected != movSelected) { //Αν η επιλεγμένη κατηγορία δεν είναι ίδια με της ταινίας
                     System.out.println("Drop Selected");
-                    Object obj = favoriteListCombo.getSelectedItem();
-                    FavoriteList fav = (FavoriteList) obj;
                     try {
-                        Movie selected = myList.get(movieTable.getSelectedRow());
-                        addToFavorite(fav, selected);
+                        Movie selected = myList.get(movieTable.getSelectedRow()); //αποθηκεύουμε σε μεταβλητή την επιλεγμένη ταινία
+                        addToFavorite(favSelected, selected); //Καλούμε την μέθοδο addToFavorite()
+                        System.out.println("Added to DB");
                     } catch (Exception e) {
                         System.out.println("");            
                     }
-                    System.out.println("Added to DB");
-                    insert = false;
+                    insert = false; //Αντιστρέφουμε την μεταβλητή insert
                 }
             }
         }
@@ -343,7 +335,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
             Movie mov2 = em.find(Movie.class, mov.getId());
             em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
             mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
-            mov.setFavoriteListId(fav);
+            mov.setFavoriteListId(fav); 
             em.getTransaction().commit();// κάνω commit το query
         } catch (Exception e) {
             System.out.println("");
@@ -358,7 +350,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         try {
             Movie mov2 = em.find(Movie.class, mov.getId());
             em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-            mov2.setFavoriteListId(null);
+            mov2.setFavoriteListId(null); //θέτουμε το favorite list id της ταινίας σε null
             mov.setFavoriteListId(null);
             em.getTransaction().commit();// κάνω commit το query
         } catch (Exception e) {
@@ -368,15 +360,15 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         
         
     private Date getDateFromText(JTextField yearSearchInput) {
-        String dateText = yearSearchInput.getText();
-        Date yearDate = null;
+        String dateText = yearSearchInput.getText(); //διαβάζουμε το text από το field yearTextInput
+        Date yearDate = null; //δημιουργούμε μεταβλητή date που την ορίζουμε κενή
         try {
-            SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy");
-            yearDate = localDateFormat.parse(dateText);
+            SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy"); //Φτιάχνουμε μεταβλητή που θα διαβάζει ένα simple date της μορφής yyyy (πχ 2018)
+            yearDate = localDateFormat.parse(dateText); //Κάνουμε cast το text από την μεταβλητή dateText σε ημερομηνία
         } catch(ParseException nfe) {
             System.err.println("Wrong Date Format");
         }
-        return yearDate;
+        return yearDate; //επιστρέφουμε την ημερομηνία στην σωστή μορφή
     } 
     /**
      * @param args the command line arguments
