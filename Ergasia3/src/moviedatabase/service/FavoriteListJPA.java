@@ -9,12 +9,14 @@ package moviedatabase.service;
  *
  * @author dim_zachos
  */
+import java.util.ArrayList;
 import moviedatabase.entities.FavoriteList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import moviedatabase.entities.Movie;
 
 public class FavoriteListJPA {
 
@@ -41,6 +43,7 @@ public class FavoriteListJPA {
         try {           
             em.persist(fl);                                     // δημιουργία τoυ query 
         } catch (Exception e) {
+            System.out.println("Δεν ολοκληρώθηκε η εγγραφή στη βάση FavoriteList");
         }
         em.getTransaction().commit();
         em.close();                                             //κλείσιμο το EntityManager
@@ -50,46 +53,73 @@ public class FavoriteListJPA {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();
+        try{
         FavoriteList a = em.find(FavoriteList.class, object.getId());
         if (a == null) {
             return ("Δε βρέθηκε το όνομα της λίστας στη βάση");
         } else {
-            em.getTransaction().begin();
-            em.merge(object);
-            em.getTransaction().commit();
-            em.close();
-            
-        }
-        return ("Ok, Έγινε αλλαγή ονόματος της λίστας στο id: " + a.getId() + " σε: " + a.getName());
+            em.getTransaction().begin();                                        //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση  
+            em.merge(object);                                                   // δημιουργία  query εισαγωγής/μεταβολής  
+                }
+        }catch(Exception e){
+                System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
+                }
+            em.getTransaction().commit();                                       //τέλος συναλλαγής
+            em.close();                                                         //κλείσιμο το EntityManager
+        return ("Finish");                                                      
     }
 
-    public static String deleteFavouriteList(FavoriteList object) {
+        public static void deleteFavouriteList(List<FavoriteList> objects) {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();
-        FavoriteList d = em.find(FavoriteList.class, object.getId());           //αναζήτηση του ονόματος στη βάση αναζητώντας το id
-        if (d == null) {                                                        //έλεγχος για το όνομα
-            return ("Δε βρέθηκε το όνομα της λίστας στη βάση");                 //επιστροφή ανάλογου μηνύματος
-        } else {
-            em.getTransaction().begin();
-            FavoriteList t = em.merge(object);      
-            em.remove(t);                           
-            em.getTransaction().commit();           
-            em.close();
-            
+        em.getTransaction().begin();
+        try{
+        for (FavoriteList tmp : objects) {
+
+            FavoriteList d = em.find(FavoriteList.class, tmp.getId());         
+            if (d == null) {
+                System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");  //μήμυμα σε περίπτωση που δε βρεθεί το id που ζητήθηκε
+            } else {
+                FavoriteList t = em.merge(tmp);         //Find an attached object with the same id and update it,
+                em.remove(t);                           //If exists update and return the already attached object, If doesn't exist insert the new register to the database
+                em.getTransaction().commit();                                   //τέλος συναλλαγής
+                System.out.println("Έγινε διαγραφή της λίστας με id: " + d.getId() + " και όνομα" + d.getName());
+            } 
         }
-      return "Ok, έγινε η διαγραφή";
+        }catch(Exception e){
+                System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
+                }
+        em.close();                                                             //κλείσιμο το EntityManager
+    }
+
+        public static List<Movie> getFavoriteMovies(Integer id) {
+        EntityManager em;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
+        em = emf.createEntityManager();
+        try{
+        FavoriteList d = em.find(FavoriteList.class, id);                       //αναζήτηση στη βάση για τον εντοπισμό του id που ζητείται
+        if (d == null) {
+            System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");
+        } else {
+            System.out.println("Βρέθηκε λίστα με id: " + d.getId() + " με id: " + d.getId() +" και όνομα" + d.getName());
+            return d.getMovieList();
+        }
+        }catch(Exception e){
+                System.err.println("Error: Δεν έγινε σύνδεση στη βάση");        //μήνυμα σε περίπτωση που δε γίνει σύνδεση με τη βάση
+                }
+        em.close();                                                             //κλείσιμο το EntityManager
+        return new ArrayList<>();                                               
     }
 
     public static List<FavoriteList> findAll() {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();
-        Query query = em.createNamedQuery("FavoriteList.findAll");
+        Query query = em.createNamedQuery("FavoriteList.findAll");              //δημιουργία ερωτήματος από τον entity για να βρει όλες τις λίστες αγαπημένων
         List<FavoriteList> resultList = query.getResultList();
         resultList.forEach(System.out::println);
         em.close();
         return resultList;
     }
-
 }

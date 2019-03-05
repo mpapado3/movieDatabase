@@ -57,6 +57,7 @@ public class MenuScreen extends javax.swing.JFrame {
             }
         });
 
+        searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/search.png"))); // NOI18N
         searchButton.setText("Αναζήτηση Ταινιών");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -100,7 +101,7 @@ public class MenuScreen extends javax.swing.JFrame {
                 .addComponent(statsButton)
                 .addGap(18, 18, 18)
                 .addComponent(exitButton)
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 270, 280));

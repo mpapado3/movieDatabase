@@ -60,7 +60,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private TableModel createTable() {
         myList = new ArrayList();
         Object obj = genreCombo.getSelectedItem();
-        Genre gen = (Genre) obj;
+        Genre gen = (Genre) obj; 
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         int year = Integer.parseInt(yearTextInput.getText());
@@ -242,13 +242,13 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        // TODO add your handling code here:
+
         TableModel movieTableModel = createTable();
         movieTable.setModel(movieTableModel);
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
-        // TODO add your handling code here:
+       
         genreCombo.setSelectedIndex(-1);
         yearTextInput.setText(null);
         textBool = false;
@@ -261,13 +261,13 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_clearBtnActionPerformed
 
     private void yearTextInputKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yearTextInputKeyTyped
-        // TODO add your handling code here:
+        
         textBool = true;
         enableSearch();  
     }//GEN-LAST:event_yearTextInputKeyTyped
 
     private void removeFromListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromListBtnActionPerformed
-        // TODO add your handling code here:
+        
         int[] selected;
         selected = movieTable.getSelectedRows();
         
@@ -277,11 +277,11 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_removeFromListBtnActionPerformed
 
     private void yearTextInputActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_yearTextInputActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_yearTextInputActionPerformed
 
     private void genreComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_genreComboActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_genreComboActionPerformed
 
     private Date getDateFromText(JTextField yearSearchInput) {
