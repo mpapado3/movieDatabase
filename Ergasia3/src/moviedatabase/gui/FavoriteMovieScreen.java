@@ -273,7 +273,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
         //List<FavoriteList> m = new ArrayList<FavoriteList>();
         int selectedIndex = jList1.getSelectedIndex();                         
-        String selectedString = jList1.getSelectedValue();
+        Object[] selectedStrings = jList1.getSelectedValues();
         int[] selectedIndices = jList1.getSelectedIndices();
         
         Object[] options = {"Ναι", "Ακύρωση"};
@@ -283,17 +283,25 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 options, options[1]);
         if(j == JOptionPane.YES_OPTION){
+
                 for (int i = 0; i < selectedIndices.length; i++) {
                    System.out.println("iiiiiiiii:" + selectedIndices[i]);
                    selectedIndex = selectedIndices[i];
+                   String selectedString = (String)selectedStrings[i];
            
                    //System.out.println(selectedIndex);
                    //System.out.println(selectedString);
                    //FavoriteListJPA.deleteFavouriteList((List<FavoriteList>) new FavoriteList((selectedIndices)));
                     System.out.println(selectedIndex);
-                  deleteFavouriteList((List<FavoriteList>) new FavoriteList(keys.get(selectedIndex), selectedString));
-                  getAllFavoriteLists();  
-        }         
+                    FavoriteList temp = new FavoriteList();
+                    temp.setId(keys.get(selectedIndex));
+                    temp.setName(selectedString);// = new FavoriteList(keys.get(selectedIndex), selectedString);
+
+                    deleteFavouriteList(temp);
+                  
+                }      
+                
+                getAllFavoriteLists();  
             }else{
                 JOptionPane.showMessageDialog(null, "Η διαγραφή της λίστας ακυρώθηκε");
         }

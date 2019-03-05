@@ -69,24 +69,21 @@ public class FavoriteListJPA {
         return ("Finish");                                                      
     }
 
-        public static void deleteFavouriteList(List<FavoriteList> objects) {
+        public static void deleteFavouriteList(FavoriteList object) {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();
         em.getTransaction().begin();
         try{
-        for (FavoriteList tmp : objects) {
-
-            FavoriteList d = em.find(FavoriteList.class, tmp.getId());         
+            FavoriteList d = em.find(FavoriteList.class, object.getId());         
             if (d == null) {
                 System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");  //μήμυμα σε περίπτωση που δε βρεθεί το id που ζητήθηκε
             } else {
-                FavoriteList t = em.merge(tmp);         //Find an attached object with the same id and update it,
+                FavoriteList t = em.merge(object);         //Find an attached object with the same id and update it,
                 em.remove(t);                           //If exists update and return the already attached object, If doesn't exist insert the new register to the database
                 em.getTransaction().commit();                                   //τέλος συναλλαγής
                 System.out.println("Έγινε διαγραφή της λίστας με id: " + d.getId() + " και όνομα" + d.getName());
             } 
-        }
         }catch(Exception e){
                 System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
                 }
