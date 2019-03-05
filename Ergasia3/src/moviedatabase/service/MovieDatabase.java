@@ -134,7 +134,7 @@ public class MovieDatabase {
 
         em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
         em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-        em.createNamedQuery("Movie.deleteAll").executeUpdate();
+        em.createNamedQuery("Movie.deleteAll").executeUpdate(); //Καλούμε την namedQuery
         em.createNamedQuery("FavoriteList.deleteAll").executeUpdate();
         em.createNamedQuery("Genre.deleteAll").executeUpdate();
         em.getTransaction().commit();
