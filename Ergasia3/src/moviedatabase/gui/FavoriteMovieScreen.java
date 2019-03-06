@@ -189,7 +189,8 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         f.add(saveButton);                                                      //πρόσθεση των αντικειμένω πάνω στο frame           
         f.setSize(400, 400);                                                    
         f.add(cancelButton);                                                    
-        f.setLayout(null);                                                      
+        f.setLayout(null);     
+        f.setLocationRelativeTo(null);
         f.setVisible(true);                                                     
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                      //κλείσιμο του τρέχοντος παραθύρου και διατήρηση του αρχικού παραθύρου
 
@@ -240,6 +241,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         f.setSize(400, 400);
         f.add(cancelButton);
         f.setLayout(null);
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);                      //κλείσιμο του τρέχοντος παραθύρου και διατήρηση του αρχικού menu
 
