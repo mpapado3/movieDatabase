@@ -47,6 +47,7 @@ public class MenuScreen extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
 
+        saveMovieButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/download_blue.png"))); // NOI18N
         saveMovieButton.setText("Ανάκτηση και Αποθήκευση Ταινιών");
         saveMovieButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,6 +55,7 @@ public class MenuScreen extends javax.swing.JFrame {
             }
         });
 
+        listButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/favorites-icon.png"))); // NOI18N
         listButton.setText("Διαχείριση Αγαπημένων Ταινιών");
         listButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -70,6 +72,7 @@ public class MenuScreen extends javax.swing.JFrame {
             }
         });
 
+        statsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/statistics.png"))); // NOI18N
         statsButton.setText("Στατιστικά");
         statsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -77,6 +80,7 @@ public class MenuScreen extends javax.swing.JFrame {
             }
         });
 
+        exitButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/exit.png"))); // NOI18N
         exitButton.setText("Έξοδος");
         exitButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -94,7 +98,7 @@ public class MenuScreen extends javax.swing.JFrame {
                     .addComponent(searchButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(statsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(exitButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(saveMovieButton, javax.swing.GroupLayout.DEFAULT_SIZE, 358, Short.MAX_VALUE)
+                    .addComponent(saveMovieButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(listButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -102,16 +106,16 @@ public class MenuScreen extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(43, 43, 43)
-                .addComponent(saveMovieButton)
-                .addGap(18, 18, 18)
+                .addComponent(saveMovieButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addComponent(listButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(statsButton)
                 .addGap(18, 18, 18)
-                .addComponent(exitButton)
-                .addContainerGap(89, Short.MAX_VALUE))
+                .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

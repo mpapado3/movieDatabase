@@ -56,7 +56,7 @@
                       <Component id="searchButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="statsButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="exitButton" alignment="0" max="32767" attributes="0"/>
-                      <Component id="saveMovieButton" alignment="0" pref="358" max="32767" attributes="0"/>
+                      <Component id="saveMovieButton" alignment="0" max="32767" attributes="0"/>
                       <Component id="listButton" alignment="1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -67,16 +67,16 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
-                  <Component id="saveMovieButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="saveMovieButton" min="-2" pref="32" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Component id="listButton" min="-2" pref="38" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="searchButton" min="-2" pref="32" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="statsButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="exitButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="89" max="32767" attributes="0"/>
+                  <Component id="exitButton" min="-2" pref="27" max="-2" attributes="0"/>
+                  <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -84,6 +84,9 @@
       <SubComponents>
         <Component class="javax.swing.JButton" name="saveMovieButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/ergasia3/images/download_blue.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x391;&#x3bd;&#x3ac;&#x3ba;&#x3c4;&#x3b7;&#x3c3;&#x3b7; &#x3ba;&#x3b1;&#x3b9; &#x391;&#x3c0;&#x3bf;&#x3b8;&#x3ae;&#x3ba;&#x3b5;&#x3c5;&#x3c3;&#x3b7; &#x3a4;&#x3b1;&#x3b9;&#x3bd;&#x3b9;&#x3ce;&#x3bd;"/>
           </Properties>
           <Events>
@@ -92,6 +95,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="listButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/ergasia3/images/favorites-icon.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x394;&#x3b9;&#x3b1;&#x3c7;&#x3b5;&#x3af;&#x3c1;&#x3b9;&#x3c3;&#x3b7; &#x391;&#x3b3;&#x3b1;&#x3c0;&#x3b7;&#x3bc;&#x3ad;&#x3bd;&#x3c9;&#x3bd; &#x3a4;&#x3b1;&#x3b9;&#x3bd;&#x3b9;&#x3ce;&#x3bd;"/>
           </Properties>
           <Events>
@@ -114,6 +120,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="statsButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/ergasia3/images/statistics.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x3a3;&#x3c4;&#x3b1;&#x3c4;&#x3b9;&#x3c3;&#x3c4;&#x3b9;&#x3ba;&#x3ac;"/>
           </Properties>
           <Events>
@@ -122,6 +131,9 @@
         </Component>
         <Component class="javax.swing.JButton" name="exitButton">
           <Properties>
+            <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+              <Image iconType="3" name="/ergasia3/images/exit.png"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="&#x388;&#x3be;&#x3bf;&#x3b4;&#x3bf;&#x3c2;"/>
           </Properties>
           <Events>

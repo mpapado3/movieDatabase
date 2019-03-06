@@ -5,18 +5,14 @@
  */
 package moviedatabase.gui;
 
-import com.sun.javafx.scene.control.skin.VirtualFlow;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,7 +26,7 @@ import moviedatabase.entities.FavoriteList;
 import moviedatabase.entities.Movie;
 import moviedatabase.service.FavoriteListJPA;
 import static moviedatabase.service.FavoriteListJPA.deleteFavouriteList;
-import static moviedatabase.service.FavoriteListJPA.getFavoriteMovies;
+
 
 /**
  *
@@ -49,7 +45,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         init();
     }
 
-   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
