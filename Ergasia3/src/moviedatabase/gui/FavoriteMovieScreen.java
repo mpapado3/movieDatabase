@@ -30,6 +30,7 @@ import moviedatabase.entities.FavoriteList;
 import moviedatabase.entities.Movie;
 import moviedatabase.service.FavoriteListJPA;
 import static moviedatabase.service.FavoriteListJPA.deleteFavouriteList;
+import static moviedatabase.service.FavoriteListJPA.getFavoriteMovies;
 
 /**
  *
@@ -110,36 +111,35 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
+                .addGap(65, 65, 65)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(353, 353, 353))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 473, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(31, 31, 31))))
+                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(22, 22, 22)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(61, 61, 61)
                         .addComponent(createButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(editButton)
                         .addGap(18, 18, 18)
                         .addComponent(deleteButton)))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
         pack();
@@ -157,14 +157,14 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     private void getAllFavoriteLists() {
         model = new DefaultListModel();
         keys = new HashMap<>();
-
+        //βρίσκει όλες τις λίστες έτσι ώστε να γίνει η αντιστοίχιση των id
         List<FavoriteList> fl = FavoriteListJPA.findAll();
         for (int i = 0; i < fl.size(); i++) {
             model.addElement(fl.get(i).getName());                              
             keys.put(i, fl.get(i).getId());
         }
 
-        jList1.setModel(model);
+        jList1.setModel(model);                                                 
     }
     DefaultListModel<String> model = new DefaultListModel();                    //δήλωση και δημιουργία defaultList και HashMap
     Map<Integer, Integer> keys = new HashMap<Integer, Integer>();               //
@@ -252,11 +252,8 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 if (textfield1.getText().equals("")) {
                     JOptionPane.showMessageDialog(null, "Μη έγκυρο όνομα", "Failure", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    // model.setElementAt(name, index);
-                    // model.add(index, name);
                     FavoriteListJPA.editFavouriteList((FavoriteList)new FavoriteList(keys.get(selectedIndex), name));
                     getAllFavoriteLists();
-                    // jList1.setModel(model);
                 }
                 f.dispose();
                 System.out.println(model);
@@ -271,11 +268,11 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_editButtonActionPerformed
     //deleteButton listener
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        //List<FavoriteList> m = new ArrayList<FavoriteList>();
+        
         int selectedIndex = jList1.getSelectedIndex();                         
         String selectedString = jList1.getSelectedValue();
         int[] selectedIndices = jList1.getSelectedIndices();
-        
+        List<String> selectedStrings = jList1.getSelectedValuesList();
         Object[] options = {"Ναι", "Ακύρωση"};
         int j = JOptionPane.showOptionDialog(null,
                 "Είστε σίγουροι ότι θέλετε να γίνει διαγραφή;",
@@ -283,17 +280,16 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 options, options[1]);
         if(j == JOptionPane.YES_OPTION){
+                   FavoriteList temp = new FavoriteList();
+                   List<FavoriteList> tempList = new ArrayList<FavoriteList>();
+                   
                 for (int i = 0; i < selectedIndices.length; i++) {
-                   System.out.println("iiiiiiiii:" + selectedIndices[i]);
-                   selectedIndex = selectedIndices[i];
-           
-                   //System.out.println(selectedIndex);
-                   //System.out.println(selectedString);
-                   //FavoriteListJPA.deleteFavouriteList((List<FavoriteList>) new FavoriteList((selectedIndices)));
-                    System.out.println(selectedIndex);
-                  deleteFavouriteList((List<FavoriteList>) new FavoriteList(keys.get(selectedIndex), selectedString));
-                  getAllFavoriteLists();  
-        }         
+                   temp.setId(keys.get(selectedIndex));
+                   temp.setName(selectedString);
+                   tempList.add(temp);
+                   deleteFavouriteList(tempList);
+                   getAllFavoriteLists();  
+        }        
             }else{
                 JOptionPane.showMessageDialog(null, "Η διαγραφή της λίστας ακυρώθηκε");
         }
@@ -304,13 +300,11 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
        jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
        editButton.setEnabled(true);
        deleteButton.setEnabled(true);
-       //int selectedIndex = jList1.getSelectedIndex();
        int[] selectedIndices = jList1.getSelectedIndices();
        List<String> selectedValues = jList1.getSelectedValuesList();
        enableJtable();
        for(int i = 0; i < selectedIndices.length; i++){
-           selectedValues.get(i);
-           
+           selectedValues.get(i); 
        }
        System.out.println(selectedValues);
        
@@ -325,18 +319,21 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
        TableModel movieTableModel = createTable();
        jTable1.setModel(movieTableModel);
     }
-    
+    //δημιουργία του jtable
     private TableModel createTable() {
-        List<Movie> list = new ArrayList<>();
-        //Object o = jList1.getSelectedIndex();
-        //int[] selectedIndices = jList1.getSelectedIndices();
-        int selectedIndex = jList1.getSelectedIndex();
-        System.out.println(jList1.getSelectedIndex());
-        String selectedValue = jList1.getSelectedValue();
-        //FavoriteListJPA.getFavoriteMovies(selectedIndex);
         
-      
-        //getAllFavoriteLists();
+        List<Movie> movies = new ArrayList<>();
+        int selectedIndex = jList1.getSelectedIndex();
+        String selectedValue = jList1.getSelectedValue();
+        int[] selectedIndices = jList1.getSelectedIndices();
+  
+        for (int i = 0; i < selectedIndices.length; i++) {
+                selectedIndex = selectedIndices[i];
+                
+                movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));
+                //movies.add((Movie)FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex)));
+                          
+   }      
         //EntityManager em;
         //EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         //em = emf.createEntityManager();
@@ -344,7 +341,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         //list = em.createQuery("SELECT m FROM Movie m WHERE m.favoriteListId = :favoriteListId").setParameter("favoriteListId",o).getResultList();
         //em.getTransaction().commit();
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
-        TableModel movieTableModel = new MovieTableModel(list, columnNames);
+        TableModel movieTableModel = new MovieTableModel(movies, columnNames);
         return movieTableModel;
     }
    

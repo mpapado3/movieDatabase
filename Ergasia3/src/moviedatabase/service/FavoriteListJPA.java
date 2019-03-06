@@ -75,18 +75,17 @@ public class FavoriteListJPA {
         em = emf.createEntityManager();
         em.getTransaction().begin();
         try{
-        for (FavoriteList tmp : objects) {
-
-            FavoriteList d = em.find(FavoriteList.class, tmp.getId());         
+            for(FavoriteList temp :objects){
+            FavoriteList d = em.find(FavoriteList.class, temp.getId());         
             if (d == null) {
                 System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");  //μήμυμα σε περίπτωση που δε βρεθεί το id που ζητήθηκε
             } else {
-                FavoriteList t = em.merge(tmp);         //Find an attached object with the same id and update it,
-                em.remove(t);                           //If exists update and return the already attached object, If doesn't exist insert the new register to the database
+                FavoriteList t = em.merge(d);                                   //Find an attached object with the same id and update it,
+                em.remove(t);                                                   //If exists update and return the already attached object, If doesn't exist insert the new register to the database
                 em.getTransaction().commit();                                   //τέλος συναλλαγής
-                System.out.println("Έγινε διαγραφή της λίστας με id: " + d.getId() + " και όνομα" + d.getName());
+                System.out.println("Έγινε διαγραφή της λίστας με id: " + d.getId() + " και όνομα" + " " + d.getName());
             } 
-        }
+            }
         }catch(Exception e){
                 System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
                 }
@@ -102,14 +101,14 @@ public class FavoriteListJPA {
         if (d == null) {
             System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");
         } else {
-            System.out.println("Βρέθηκε λίστα με id: " + d.getId() + " με id: " + d.getId() +" και όνομα" + d.getName());
+            System.out.println("Βρέθηκε λίστα με id: " + d.getId() + " και όνομα" + " " + d.getName());
             return d.getMovieList();
         }
         }catch(Exception e){
                 System.err.println("Error: Δεν έγινε σύνδεση στη βάση");        //μήνυμα σε περίπτωση που δε γίνει σύνδεση με τη βάση
                 }
         em.close();                                                             //κλείσιμο το EntityManager
-        return new ArrayList<>();                                               
+        return new ArrayList<Movie>();                                               
     }
 
     public static List<FavoriteList> findAll() {
