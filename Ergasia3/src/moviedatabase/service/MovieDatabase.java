@@ -39,7 +39,7 @@ public class MovieDatabase {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws Exception {
+    public static void restoreMovies() throws Exception {
             // TODO code application logic here
 
         String webpage = mainUrl + genreUrl + api;  //Συνεννόνουμε την διεύθυνση για να πάρουμε τα genre        
