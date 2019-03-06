@@ -31,15 +31,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Table(name = "MOVIE")
 @XmlRootElement
 @NamedQueries({
-      @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m")
+    @NamedQuery(name = "Movie.findAll", query = "SELECT m FROM Movie m")
     , @NamedQuery(name = "Movie.findById", query = "SELECT m FROM Movie m WHERE m.id = :id")
     , @NamedQuery(name = "Movie.findByTitle", query = "SELECT m FROM Movie m WHERE m.title = :title")
     , @NamedQuery(name = "Movie.findByReleaseDate", query = "SELECT m FROM Movie m WHERE m.releaseDate = :releaseDate")
     , @NamedQuery(name = "Movie.findByRating", query = "SELECT m FROM Movie m WHERE m.rating = :rating")
+    , @NamedQuery(name = "Movie.findByRatingAndFavoriteList", query = "SELECT m from Movie m WHERE m.rating = :rating and m.favoriteListId = :favoriteList")
     , @NamedQuery(name = "Movie.findByOverview", query = "SELECT m FROM Movie m WHERE m.overview = :overview")
-    , @NamedQuery(name = "Movie.findByReleaseDateAndGenre", query = "SELECT m FROM Movie m WHERE FUNCTION('YEAR', m.releaseDate) = :releaseDate and m.genreId = :genreId")    
-    , @NamedQuery(name = "Movie.deleteAll", query = "Delete from Movie m")
-    })
+    , @NamedQuery(name = "Movie.findByReleaseDateAndGenre", query = "SELECT m FROM Movie m WHERE FUNCTION('YEAR', m.releaseDate) = :releaseDate and m.genreId = :genreId")
+    , @NamedQuery(name = "Movie.deleteAll", query = "Delete from Movie m")})
 public class Movie implements Serializable {
 
     @Transient

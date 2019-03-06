@@ -13,8 +13,6 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -35,8 +33,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "FavoriteList.findAll", query = "SELECT f FROM FavoriteList f")
     , @NamedQuery(name = "FavoriteList.findById", query = "SELECT f FROM FavoriteList f WHERE f.id = :id")
     , @NamedQuery(name = "FavoriteList.findByName", query = "SELECT f FROM FavoriteList f WHERE f.name = :name")
-    , @NamedQuery(name = "FavoriteList.deleteAll", query = "Delete From FavoriteList f")
-   })
+    , @NamedQuery(name = "FavoriteList.deleteAll", query = "Delete From FavoriteList f")})
 public class FavoriteList implements Serializable {
 
     @Transient
@@ -44,7 +41,6 @@ public class FavoriteList implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //auto increment  https://db.apache.org/derby/docs/10.0/manuals/develop/develop132.html
     @Basic(optional = false)
     @Column(name = "ID")
     private Integer id;
