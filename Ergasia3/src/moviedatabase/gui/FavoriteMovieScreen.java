@@ -62,7 +62,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         deleteButton = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         createButton.setText("Δημιουργία Λίστας");
         createButton.addActionListener(new java.awt.event.ActionListener() {
@@ -143,6 +143,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     /**
