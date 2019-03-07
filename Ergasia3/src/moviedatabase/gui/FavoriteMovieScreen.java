@@ -9,7 +9,6 @@ package moviedatabase.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
      */
     public FavoriteMovieScreen() {
         initComponents();
-        
         editButton.setEnabled(false);                                           //αρχικοποίηση editButton ώστε να μην είναι visible
         deleteButton.setEnabled(false);                                         //αρχικοποίηση deleteButton ώστε να μην είναι visible
         init();
@@ -199,8 +197,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 } else {
                     FavoriteListJPA fl = new FavoriteListJPA();                 //δημιουργία του αντικειμένου
                     fl.createFavouriteList(name);                               //κλήση της μεθόδου createFavoriteList για εισαγωγή ονόματος στη βάση
-                    //model.addElement(name);                                   //προσθήκη σε modelList
-                    //jList1.setModel(model);                                   //εμφάνιση στη jlist
                     getAllFavoriteLists();
                 }
                 f.dispose();                                                    //κλείσιμο παραθύρου και αποδέσμευση από μνήμη
@@ -266,7 +262,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_editButtonActionPerformed
     //deleteButton listener
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        
         int selectedIndex = jList1.getSelectedIndex();                         
         String selectedString = jList1.getSelectedValue();
         int[] selectedIndices = jList1.getSelectedIndices();
@@ -327,17 +322,8 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
   
         for (int i = 0; i < selectedIndices.length; i++) {
                 selectedIndex = selectedIndices[i];
-                
-                movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));
-                //movies.add((Movie)FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex)));
-                          
-   }      
-        //EntityManager em;
-        //EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        //em = emf.createEntityManager();
-        //em.getTransaction().begin();
-        //list = em.createQuery("SELECT m FROM Movie m WHERE m.favoriteListId = :favoriteListId").setParameter("favoriteListId",o).getResultList();
-        //em.getTransaction().commit();
+                movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));                     
+        }      
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
         TableModel movieTableModel = new MovieTableModel(movies, columnNames);
         return movieTableModel;

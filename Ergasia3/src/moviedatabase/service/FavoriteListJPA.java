@@ -20,22 +20,10 @@ import moviedatabase.entities.Movie;
 
 public class FavoriteListJPA {
 
-    public static void main(String[] args) {
-        /*
-        createFavouriteList("Comedy");
-        findAll();
-        createFavouriteList("thriller");
-        findAll();
-        deleteFavouriteList(new FavoriteList(50, "thriller"));
-        findAll();
-        editFavouriteList(new FavoriteList(60, "X"));
-        */
-    }
 
     public static void createFavouriteList(String listName) {
         FavoriteList fl = new FavoriteList();
         fl.setName(listName);
-
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
         em = emf.createEntityManager();                         //αρχικοποίηση της μεταβλητή em
@@ -80,14 +68,14 @@ public class FavoriteListJPA {
             if (d == null) {
                 System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");  //μήμυμα σε περίπτωση που δε βρεθεί το id που ζητήθηκε
             } else {
-                FavoriteList t = em.merge(d);                                   //Find an attached object with the same id and update it,
-                em.remove(t);                                                   //If exists update and return the already attached object, If doesn't exist insert the new register to the database
-                em.getTransaction().commit();                                   //τέλος συναλλαγής
+                FavoriteList t = em.merge(d);                                   
+                em.remove(t);                                                   
+                em.getTransaction().commit();                                   
                 System.out.println("Έγινε διαγραφή της λίστας με id: " + d.getId() + " και όνομα" + " " + d.getName());
             } 
             }
         }catch(Exception e){
-                System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
+                System.err.println("Error: Δεν έγινε σύνδεση στη βάση");        //μήμυμα σε περίπτωση που δε γίνει σύνδεση στη βάση
                 }
         em.close();                                                             //κλείσιμο το EntityManager
     }
@@ -108,9 +96,9 @@ public class FavoriteListJPA {
                 System.err.println("Error: Δεν έγινε σύνδεση στη βάση");        //μήνυμα σε περίπτωση που δε γίνει σύνδεση με τη βάση
                 }
         em.close();                                                             //κλείσιμο το EntityManager
-        return new ArrayList<Movie>();                                               
+        return new ArrayList<Movie>();                                          //επιστροφή της λίστας με τις ταινίες     
     }
-
+    //η μέθοδος που επικοινωνεί με τη βάση favoriteList και φέρνει το περιεχόμενο με τις αγαπημένες λίστες
     public static List<FavoriteList> findAll() {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
@@ -121,4 +109,5 @@ public class FavoriteListJPA {
         em.close();
         return resultList;
     }
+
 }

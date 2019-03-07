@@ -7,7 +7,6 @@ package moviedatabase.gui;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JFrame;
 import moviedatabase.service.MovieDatabase;
 
 /**
@@ -23,7 +22,6 @@ public class MenuScreen extends javax.swing.JFrame {
         initComponents();
         
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -108,8 +106,8 @@ public class MenuScreen extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addComponent(saveMovieButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(27, 27, 27)
-                .addComponent(listButton, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addComponent(listButton)
+                .addGap(20, 20, 20)
                 .addComponent(searchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(statsButton)
@@ -148,7 +146,7 @@ public class MenuScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_saveMovieButtonActionPerformed
 
     private void statsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statsButtonActionPerformed
-        // TODO add your handling code here:
+
         StatisticsForm sf = new StatisticsForm();
         sf.setVisible(true);
     }//GEN-LAST:event_statsButtonActionPerformed
