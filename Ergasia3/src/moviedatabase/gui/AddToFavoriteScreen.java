@@ -17,6 +17,7 @@ import javax.swing.JList;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
+import moviedatabase.service.AddToFavorites;
 import moviedatabase.MoviePOJO;
 import moviedatabase.MovieTableModel;
 import moviedatabase.entities.FavoriteList;
@@ -98,7 +99,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         MovieDatabasePUEntityManager = java.beans.Beans.isDesignTime() ? null : javax.persistence.Persistence.createEntityManagerFactory("MovieDatabasePU").createEntityManager();
         genreQuery = java.beans.Beans.isDesignTime() ? null : MovieDatabasePUEntityManager.createQuery("SELECT g FROM Genre g");
         genreList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : genreQuery.getResultList();
-        addToFavorites1 = new moviedatabase.AddToFavorites();
+        addToFavorites1 = new moviedatabase.service.AddToFavorites();
         favoriteListQuery = java.beans.Beans.isDesignTime() ? null : MovieDatabasePUEntityManager.createQuery("SELECT f FROM FavoriteList f");
         favoriteListList = java.beans.Beans.isDesignTime() ? java.util.Collections.emptyList() : favoriteListQuery.getResultList();
         jLabel1 = new javax.swing.JLabel();
@@ -292,7 +293,8 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         Movie selected = myList.get(movieTable.getSelectedRow()); //Δημιουργούμε βοηθητική μεταβλητή movie που θα αποθηκεύει την επιλεγμένη ταινία
         if (selected.getFavoriteListId() != null) { //Ελέγχουμε αν το favorite list id της ταινίας δεν είναι null
             favoriteListCombo.setSelectedIndex(-1); //και εφόσον δεν είναι θέτουμε το index του favorite list Combo στην τιμή -1
-            removeFromFavorite(selected); //και καλείται η μέθοδος removeFromFavorite με την επιλεγμένη ταινία
+            AddToFavorites addFav = new AddToFavorites(); //Δημιουργούμε νέο στιγμιότυπο από την κλάση AddToFavorites
+            addFav.removeFromFavorite(selected); //και καλείται η μέθοδος removeFromFavorite με την επιλεγμένη ταινία
         }
     }//GEN-LAST:event_removeFromListBtnActionPerformed
 
@@ -316,7 +318,8 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
                     System.out.println("Drop Selected");
                     try {
                         Movie selected = myList.get(movieTable.getSelectedRow()); //αποθηκεύουμε σε μεταβλητή την επιλεγμένη ταινία
-                        addToFavorite(favSelected, selected); //Καλούμε την μέθοδο addToFavorite()
+                        AddToFavorites addFav = new AddToFavorites(); //Δημιουργούμε νέο στιγμιότυπο από την κλάση AddToFavorites
+                        addFav.addToFavorite(favSelected, selected); //Καλούμε την μέθοδο addToFavorite()
                         System.out.println("Added to DB");
                     } catch (Exception e) {
                         System.out.println("");            
@@ -326,39 +329,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_favoriteListComboItemStateChanged
-
-        private void addToFavorite(FavoriteList fav, Movie mov) {
-        EntityManager em; // Ο EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
-        em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
-        try {
-            Movie mov2 = em.find(Movie.class, mov.getId());
-            em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-            mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
-            mov.setFavoriteListId(fav); 
-            em.getTransaction().commit();// κάνω commit το query
-        } catch (Exception e) {
-            System.out.println("");
-        }
-       
-    }
-        
-        private void removeFromFavorite(Movie mov) {
-        EntityManager em; // Ο EntityManager
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
-        em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
-        try {
-            Movie mov2 = em.find(Movie.class, mov.getId());
-            em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-            mov2.setFavoriteListId(null); //θέτουμε το favorite list id της ταινίας σε null
-            mov.setFavoriteListId(null);
-            em.getTransaction().commit();// κάνω commit το query
-        } catch (Exception e) {
-            System.out.println("");
-        }
-    }
-        
-        
+     
     private Date getDateFromText(JTextField yearSearchInput) {
         String dateText = yearSearchInput.getText(); //διαβάζουμε το text από το field yearTextInput
         Date yearDate = null; //δημιουργούμε μεταβλητή date που την ορίζουμε κενή
@@ -408,7 +379,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.persistence.EntityManager MovieDatabasePUEntityManager;
-    private moviedatabase.AddToFavorites addToFavorites1;
+    private moviedatabase.service.AddToFavorites addToFavorites1;
     private javax.swing.JButton clearBtn;
     private javax.swing.JComboBox<String> favoriteListCombo;
     private java.util.List<moviedatabase.entities.FavoriteList> favoriteListList;

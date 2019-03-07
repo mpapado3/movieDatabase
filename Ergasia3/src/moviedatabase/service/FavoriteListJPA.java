@@ -68,6 +68,13 @@ public class FavoriteListJPA {
             if (d == null) {
                 System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");  //μήμυμα σε περίπτωση που δε βρεθεί το id που ζητήθηκε
             } else {
+                
+                List<Movie> movies = d.getMovieList();
+                d.setMovieList(null);
+                AddToFavorites rem = new AddToFavorites();
+                for (Movie m: movies) {
+                    rem.removeFromFavorite(m);
+                }         
                 FavoriteList t = em.merge(d);                                   
                 em.remove(t);                                                   
                 em.getTransaction().commit();                                   
@@ -98,6 +105,8 @@ public class FavoriteListJPA {
         em.close();                                                             //κλείσιμο το EntityManager
         return new ArrayList<Movie>();                                          //επιστροφή της λίστας με τις ταινίες     
     }
+        
+        
     //η μέθοδος που επικοινωνεί με τη βάση favoriteList και φέρνει το περιεχόμενο με τις αγαπημένες λίστες
     public static List<FavoriteList> findAll() {
         EntityManager em;

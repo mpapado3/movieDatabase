@@ -47,6 +47,9 @@ public class StatisticsForm extends javax.swing.JFrame {
         topMovieTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Στατιστικά Ταινιών");
+        setAutoRequestFocus(false);
+        setBackground(new java.awt.Color(0, 0, 0));
 
         top10MoviesBtn.setText("Οι Καλύτερες 10 Ταινίες");
         top10MoviesBtn.setPreferredSize(new java.awt.Dimension(260, 30));

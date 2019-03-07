@@ -25,7 +25,7 @@
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;moviedatabase.entities.Genre&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="moviedatabase.AddToFavorites" name="addToFavorites1">
+    <Component class="moviedatabase.service.AddToFavorites" name="addToFavorites1">
     </Component>
     <Component class="javax.persistence.Query" name="favoriteListQuery">
       <Properties>

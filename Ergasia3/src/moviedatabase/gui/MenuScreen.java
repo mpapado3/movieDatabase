@@ -43,7 +43,7 @@ public class MenuScreen extends javax.swing.JFrame {
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(51, 102, 0), 1, true));
 
         saveMovieButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/download_blue.png"))); // NOI18N
         saveMovieButton.setText("Ανάκτηση και Αποθήκευση Ταινιών");
@@ -61,7 +61,6 @@ public class MenuScreen extends javax.swing.JFrame {
             }
         });
 
-        searchButton.setFont(new java.awt.Font("Lucida Grande", 0, 13)); // NOI18N
         searchButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ergasia3/images/search.png"))); // NOI18N
         searchButton.setText("Αναζήτηση Ταινιών");
         searchButton.addActionListener(new java.awt.event.ActionListener() {
