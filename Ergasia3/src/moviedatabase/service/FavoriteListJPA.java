@@ -25,11 +25,11 @@ public class FavoriteListJPA {
         FavoriteList fl = new FavoriteList();
         fl.setName(listName);
         EntityManager em;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        em = emf.createEntityManager();                         //αρχικοποίηση της μεταβλητή em
-        em.getTransaction().begin();                            //καινούργια συναλλαγή για να γίνει αποθήκευση στη βάση Favorite_List
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");  
+        em = emf.createEntityManager();                                         //αρχικοποίηση της μεταβλητή em
+        em.getTransaction().begin();                                            //καινούργια συναλλαγή για να γίνει αποθήκευση στη βάση Favorite_List
         try {           
-            em.persist(fl);                                     // δημιουργία τoυ query 
+            em.persist(fl);                                                     // δημιουργία τoυ query 
         } catch (Exception e) {
             System.out.println("Δεν ολοκληρώθηκε η εγγραφή στη βάση FavoriteList");
         }
@@ -39,8 +39,8 @@ public class FavoriteListJPA {
 
     public static String editFavouriteList(FavoriteList object) {
         EntityManager em;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        em = emf.createEntityManager();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");      
+        em = emf.createEntityManager();                                         //αρχικοποίηση της μεταβλητής em
         try{
         FavoriteList a = em.find(FavoriteList.class, object.getId());
         if (a == null) {
@@ -57,27 +57,9 @@ public class FavoriteListJPA {
         return ("Finish");                                                      
     }
 
-    public static void editMovieKey(List<Movie> objects) {
-        EntityManager em;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
-        em = emf.createEntityManager();
-        em.getTransaction().begin();
- 
-        for (Movie tmp : objects) {
-            em.merge(tmp);
- 
-        }
-        em.getTransaction().commit();
-        em.close();
-    }
-    
-    
-    
-    
-    
         public static void deleteFavouriteList(List<FavoriteList> objects) {
         EntityManager em;
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");   //αρχικοποίηση της μεταβλητής emf
         em = emf.createEntityManager();
         em.getTransaction().begin();
         try{
@@ -114,7 +96,7 @@ public class FavoriteListJPA {
         if (d == null) {
             System.out.println("Δε βρέθηκε το όνομα της λίστας στη βάση");
         } else {
-            System.out.println("Βρέθηκε λίστα με id: " + d.getId() + " και όνομα" + " " + d.getName());
+            //System.out.println("Βρέθηκε λίστα με id: " + d.getId() + " και όνομα" + " " + d.getName());
             return d.getMovieList();
         }
         }catch(Exception e){
@@ -125,7 +107,7 @@ public class FavoriteListJPA {
     }
         
         
-    //η μέθοδος που επικοινωνεί με τη βάση favoriteList και φέρνει το περιεχόμενο με τις αγαπημένες λίστες
+    
     public static List<FavoriteList> findAll() {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");

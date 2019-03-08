@@ -162,7 +162,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     private void init() {
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE );
         jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);           //αρχικοποίηση του τρόπυ επιλογής μιας εγγραφής στη jlist
         getAllFavoriteLists();
         
@@ -293,9 +292,9 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 "Διαγραφή",
                 JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null,
                 options, options[1]);
-        if(j == JOptionPane.YES_OPTION){
-                   FavoriteList temp = new FavoriteList();
-                   List<FavoriteList> tempList = new ArrayList<FavoriteList>();
+            if(j == JOptionPane.YES_OPTION){
+                FavoriteList temp = new FavoriteList();
+                List<FavoriteList> tempList = new ArrayList<FavoriteList>();
                    
                 for (int i = 0; i < selectedIndices.length; i++) {
                    temp.setId(keys.get(selectedIndex));
@@ -317,16 +316,11 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
        enableJtable();                                                          //μέθοδος για δημιουργία jtable
        int[] selectedIndices = jList1.getSelectedIndices();                               
        List<String> selectedValues = jList1.getSelectedValuesList();
-       
-       for(int i = 0; i < selectedIndices.length; i++){
-           selectedValues.get(i);
-       }
-       System.out.println(selectedValues);
+               
        //εαν έχουν επιλεχθεί πάνω από 2 αγαπημένες λίστες ταινιών το κουμπί επεξεργασίας γίνεται ανενεργό ενώ το κουμπί διαγραφής παραμένει ενεργό
        if(selectedIndices.length > 1){                                         
            editButton.setEnabled(false);
            deleteButton.setEnabled(true);
-           System.out.println(selectedIndices.length);
        }
     }//GEN-LAST:event_jList1ValueChanged
     //μέθοδος για τη δημιουργία του jtable
@@ -337,7 +331,6 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
 
     //δημιουργία του jtable
     private TableModel createTable() {
-        
         List<Movie> movies = new ArrayList<>();
         int selectedIndex = jList1.getSelectedIndex();
         String selectedValue = jList1.getSelectedValue();
@@ -349,7 +342,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         }      
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};   //τα ονόματα των στηλών 
         TableModel movieTableModel = new MovieTableModel(movies, columnNames);  //Δημιουργία tableModel με την λίστα των ταινιών και τους τίτλους των στηλών
-        return movieTableModel;
+        return movieTableModel;                                                 //επιστρέφει τον πίνακα συμπληρωμένο με τις ταινίες και τις στήλες
     }
    
     public static void main(String args[]) {
