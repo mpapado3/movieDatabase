@@ -57,6 +57,24 @@ public class FavoriteListJPA {
         return ("Finish");                                                      
     }
 
+    public static void editMovieKey(List<Movie> objects) {
+        EntityManager em;
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");
+        em = emf.createEntityManager();
+        em.getTransaction().begin();
+ 
+        for (Movie tmp : objects) {
+            em.merge(tmp);
+ 
+        }
+        em.getTransaction().commit();
+        em.close();
+    }
+    
+    
+    
+    
+    
         public static void deleteFavouriteList(List<FavoriteList> objects) {
         EntityManager em;
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU");

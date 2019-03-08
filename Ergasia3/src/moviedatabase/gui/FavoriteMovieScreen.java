@@ -41,21 +41,33 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         editButton.setEnabled(false);                                           //αρχικοποίηση editButton ώστε να μην είναι visible
         deleteButton.setEnabled(false);                                         //αρχικοποίηση deleteButton ώστε να μην είναι visible
         init();
+        
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        deleteButton = new javax.swing.JButton();
         createButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        deleteButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 102, 0)));
+
+        deleteButton.setText("Διαγραφή");
+        deleteButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteButtonActionPerformed(evt);
+            }
+        });
 
         createButton.setText("Δημιουργία Λίστας");
         createButton.addActionListener(new java.awt.event.ActionListener() {
@@ -92,47 +104,54 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTable1);
 
-        deleteButton.setText("Διαγραφή");
-        deleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteButtonActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(editButton)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 919, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(createButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(editButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(deleteButton)
+                        .addGap(97, 97, 97))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(45, 45, 45)))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(23, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(65, 65, 65)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 877, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(49, Short.MAX_VALUE))
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(61, 61, 61)
-                        .addComponent(createButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(editButton)
-                        .addGap(18, 18, 18)
-                        .addComponent(deleteButton)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -143,22 +162,24 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     private void init() {
-        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);           //αρχικοποίηση επιλογής μιας εγγραφής στη jlist
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE );
+        jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);           //αρχικοποίηση του τρόπυ επιλογής μιας εγγραφής στη jlist
         getAllFavoriteLists();
+        
     }
     
     //μέθοδος για αντιστοίχιση των id της jlist με τα id της βάσης
     private void getAllFavoriteLists() {
-        model = new DefaultListModel();
-        keys = new HashMap<>();
-        //βρίσκει όλες τις λίστες έτσι ώστε να γίνει η αντιστοίχιση των id
+        model = new DefaultListModel();                                          
+        keys = new HashMap<>();                                                 //δημιουργία hashmap ώστε να γίνει αντιστοίχιση μεταξύ των id σε βάση και jlist
+        //βρίσκει όλες τις λίστες από τη βάση favoritelist
         List<FavoriteList> fl = FavoriteListJPA.findAll();
         for (int i = 0; i < fl.size(); i++) {
-            model.addElement(fl.get(i).getName());                              
+            model.addElement(fl.get(i).getName());                               
             keys.put(i, fl.get(i).getId());
         }
 
-        jList1.setModel(model);                                                 
+        jList1.setModel(model);                                                 //σύνδεση του defaultlistmodel με την jlist
     }
     DefaultListModel<String> model = new DefaultListModel();                    //δήλωση και δημιουργία defaultList και HashMap
     Map<Integer, Integer> keys = new HashMap<Integer, Integer>();               //
@@ -211,7 +232,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         });
 
     }//GEN-LAST:event_createButtonActionPerformed
-
+    //editButton listener
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
         JFrame f = new JFrame("Επεξεργασία ονόματος λίστας");                   //δημιουργία του frame με title                                                                
         JButton saveButton = new JButton("Αποθήκευση");                         //δημιουργία saveButton
@@ -243,7 +264,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                 int selectedIndex = jList1.getSelectedIndex();
                 String selectedString = jList1.getSelectedValue();
 
-                if (textfield1.getText().equals("")) {
+                if (textfield1.getText().equals("")) {                          //έλεγχος και μήνυμα λάθους στην περίπτωση που ο χρήστης δώσει κενό textfield
                     JOptionPane.showMessageDialog(null, "Μη έγκυρο όνομα", "Failure", JOptionPane.ERROR_MESSAGE);
                 } else {
                     FavoriteListJPA.editFavouriteList((FavoriteList)new FavoriteList(keys.get(selectedIndex), name));
@@ -290,28 +311,30 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     
     //jList listener
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
-       jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-       editButton.setEnabled(true);
-       deleteButton.setEnabled(true);
-       int[] selectedIndices = jList1.getSelectedIndices();
+       jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION); //μόλις πατηθεί από το ποντίκι η jlist αλλάζει ο τρόπος επίλογής λιστών
+       editButton.setEnabled(true);                                             //το κουμπί επεξεργασία γίνεται διαθέσιμο
+       deleteButton.setEnabled(true);                                           //το κουμπί διαγραφή γίνεται διαθέσιμο
+       enableJtable();                                                          //μέθοδος για δημιουργία jtable
+       int[] selectedIndices = jList1.getSelectedIndices();                               
        List<String> selectedValues = jList1.getSelectedValuesList();
-       enableJtable();
+       
        for(int i = 0; i < selectedIndices.length; i++){
-           selectedValues.get(i); 
+           selectedValues.get(i);
        }
        System.out.println(selectedValues);
-       
-       if(selectedIndices.length > 1){
+       //εαν έχουν επιλεχθεί πάνω από 2 αγαπημένες λίστες ταινιών το κουμπί επεξεργασίας γίνεται ανενεργό ενώ το κουμπί διαγραφής παραμένει ενεργό
+       if(selectedIndices.length > 1){                                         
            editButton.setEnabled(false);
            deleteButton.setEnabled(true);
            System.out.println(selectedIndices.length);
        }
     }//GEN-LAST:event_jList1ValueChanged
- 
+    //μέθοδος για τη δημιουργία του jtable
     private void enableJtable(){
        TableModel movieTableModel = createTable();
        jTable1.setModel(movieTableModel);
     }
+
     //δημιουργία του jtable
     private TableModel createTable() {
         
@@ -321,11 +344,11 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
         int[] selectedIndices = jList1.getSelectedIndices();
   
         for (int i = 0; i < selectedIndices.length; i++) {
-                selectedIndex = selectedIndices[i];
-                movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));                     
+            selectedIndex = selectedIndices[i];
+            movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));                     
         }      
-        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};
-        TableModel movieTableModel = new MovieTableModel(movies, columnNames);
+        String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};   //τα ονόματα των στηλών 
+        TableModel movieTableModel = new MovieTableModel(movies, columnNames);  //Δημιουργία tableModel με την λίστα των ταινιών και τους τίτλους των στηλών
         return movieTableModel;
     }
    
@@ -366,6 +389,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
     private javax.swing.JList<String> jList1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
