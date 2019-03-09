@@ -36,6 +36,10 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     /**
      * Creates new form FavoriteMovieScreen
      */
+    private static int EMPTY = -1;
+    private DefaultListModel<String> model = new DefaultListModel();                    //δήλωση και δημιουργία defaultList και HashMap
+    private Map<Integer, Integer> keys = new HashMap<Integer, Integer>();               //
+    
     public FavoriteMovieScreen() {
         initComponents();
         editButton.setEnabled(false);                                           //αρχικοποίηση editButton ώστε να μην είναι visible
@@ -114,10 +118,10 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
                         .addGap(81, 81, 81)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(createButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(editButton)
-                            .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(createButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(editButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 919, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -163,8 +167,7 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
      */
     private void init() {
         jList1.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);           //αρχικοποίηση του τρόπυ επιλογής μιας εγγραφής στη jlist
-        getAllFavoriteLists();
-        
+        getAllFavoriteLists();  
     }
     
     //μέθοδος για αντιστοίχιση των id της jlist με τα id της βάσης
@@ -177,11 +180,9 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
             model.addElement(fl.get(i).getName());                               
             keys.put(i, fl.get(i).getId());
         }
-
         jList1.setModel(model);                                                 //σύνδεση του defaultlistmodel με την jlist
     }
-    DefaultListModel<String> model = new DefaultListModel();                    //δήλωση και δημιουργία defaultList και HashMap
-    Map<Integer, Integer> keys = new HashMap<Integer, Integer>();               //
+    
 
     //createButton listener
     private void createButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createButtonActionPerformed
@@ -335,7 +336,11 @@ public class FavoriteMovieScreen extends javax.swing.JFrame {
     private TableModel createTable() {
         List<Movie> movies = new ArrayList<>();
         int selectedIndex = jList1.getSelectedIndex();
-        movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));                     
+        
+        //φορτώνουμε τον πίνακα με τις ταινίες για καθορισμένο selection
+        if(selectedIndex > EMPTY){
+        movies = FavoriteListJPA.getFavoriteMovies(keys.get(selectedIndex));
+        }
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"};   //τα ονόματα των στηλών 
         TableModel movieTableModel = new MovieTableModel(movies, columnNames);  //Δημιουργία tableModel με την λίστα των ταινιών και τους τίτλους των στηλών
         return movieTableModel;                                                 //επιστρέφει τον πίνακα συμπληρωμένο με τις ταινίες και τις στήλες
