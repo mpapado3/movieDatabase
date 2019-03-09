@@ -49,7 +49,7 @@ public class MovieDatabase {
         getGenres(); //Καλούμε την μέθοδο που διαβάζει τις κατηγορίες από την διεύθυνση του movieDatabase
         
         getMovies(); //Καλούμε την μέθοδο που διαβάζει τις ταινίες από την διεύθυνση του movieDatabase
-        
+
         JOptionPane.showMessageDialog(null, "Η ανάκτηση των δεδομένων ολοκληρώθηκε!"); //Εμφανίζουμε παράθυρο ότι έγινε η ανάγνωση από το site
     }
     
