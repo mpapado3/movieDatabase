@@ -47,13 +47,13 @@ public class FavoriteListJPA {
             return ("Δε βρέθηκε το όνομα της λίστας στη βάση");
         } else {
             em.getTransaction().begin();                                        //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση  
-            em.merge(object);                                                   // δημιουργία  query εισαγωγής/μεταβολής  
+            a.setName(object.getName());                                        // δημιουργία  query εισαγωγής/μεταβολής  
+            em.getTransaction().commit();                                       //τέλος συναλλαγής
+            em.close();                                                         //κλείσιμο το EntityManager
                 }
         }catch(Exception e){
                 System.err.println("Error: Δεν έγινε σύνδεση στη βάση");
-                }
-            em.getTransaction().commit();                                       //τέλος συναλλαγής
-            em.close();                                                         //κλείσιμο το EntityManager
+            }
         return ("Finish");                                                      
     }
 
