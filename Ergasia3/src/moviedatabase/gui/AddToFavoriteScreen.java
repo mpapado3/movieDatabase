@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.List;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
@@ -76,10 +77,13 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
             int year = Integer.parseInt(yearTextInput.getText()); //Μετατρέπουμε την ημερομηνία σε αριθμό
             //Με κλήση στην βάση με κάνουμε ερώτημα να μας φέρει τις ταινίες με την ημερομηνία που όρισαμε και την κατηγορία
             myList = em.createNamedQuery("Movie.findByReleaseDateAndGenre").setParameter("releaseDate", year).setParameter("genreId", gen).getResultList();
+            em.getTransaction().commit(); //Κάνουμε commit την συναλλαγή
+            em.close();
         } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Η ημερομηνία δεν είναι σωστή!"); //Εμφανίζουμε παράθυρο ότι έγινε λάθος εισαγωγή
             System.out.println("Wrong");
         }
-        em.getTransaction().commit(); //Κάνουμε commit την συναλλαγή
+        
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"}; //Οι τίτλοι από τις στήλες
         TableModel movieTableModel = new MovieTableModel(myList,columnNames); //Δημιουργούμε ενα νέο tableModel με την λίστα των ταινιών και τους τίτλους από τις στήλες
         return movieTableModel; //Επιστρέφουμε το table model.
@@ -146,6 +150,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         });
 
         org.jdesktop.swingbinding.JComboBoxBinding jComboBoxBinding = org.jdesktop.swingbinding.SwingBindings.createJComboBoxBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, genreList, genreCombo);
+        jComboBoxBinding.setSourceUnreadableValue(null);
         bindingGroup.addBinding(jComboBoxBinding);
 
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -294,6 +299,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
         genreCombo.setSelectedIndex(-1); //Ορίζουμε το index του comboBox στο -1 ώστε να είναι κενό
+        favoriteListCombo.setSelectedIndex(-1); //Ορίζουμε το index -1 ώστε να μην δείχνει κάποια λίστα
         yearTextInput.setText(null); //Μηδενίζουμε το πεδίο που δίνουμε την χρονολογία
         textBool = false; //Θέτουμε την μεταβλητή textBool ως false
         comboBool = false; //Θέτουμε και την μεταβλητή comboBool ως false
@@ -357,6 +363,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
             SimpleDateFormat localDateFormat = new SimpleDateFormat("yyyy"); //Φτιάχνουμε μεταβλητή που θα διαβάζει ένα simple date της μορφής yyyy (πχ 2018)
             yearDate = localDateFormat.parse(dateText); //Κάνουμε cast το text από την μεταβλητή dateText σε ημερομηνία
         } catch(ParseException nfe) {
+            
             System.err.println("Wrong Date Format");
         }
         return yearDate; //επιστρέφουμε την ημερομηνία στην σωστή μορφή

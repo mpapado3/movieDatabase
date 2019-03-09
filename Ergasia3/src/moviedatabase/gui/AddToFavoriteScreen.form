@@ -216,11 +216,13 @@
         <Component class="javax.swing.JComboBox" name="genreCombo">
           <Properties>
             <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new DefaultListCellRenderer() {&#xa;           @Override&#xa;           public Component getListCellRendererComponent(&#xa;                   JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;               super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;               if (value instanceof Genre) {&#xa;                   Genre mec = (Genre)value;&#xa;                   setText(mec.getName());&#xa;               }&#xa;               return this;&#xa;           }&#xa;            }" type="code"/>
+              <Connection code="new DefaultListCellRenderer() {&#xa;    @Override&#xa;    public Component getListCellRendererComponent(&#xa;        JList list, Object value, int index, boolean isSelected, boolean cellHasFocus) {&#xa;        super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);&#xa;        if (value instanceof Genre) {&#xa;            Genre mec = (Genre)value;&#xa;            setText(mec.getName());&#xa;        }&#xa;        return this;&#xa;    }&#xa;}" type="code"/>
             </Property>
           </Properties>
           <BindingProperties>
-            <BindingProperty name="elements" source="genreList" target="genreCombo" targetPath="elements" updateStrategy="0" immediately="false"/>
+            <BindingProperty name="elements" source="genreList" target="genreCombo" targetPath="elements" updateStrategy="0" immediately="false">
+              <Property name="incompletePathValue" type="java.util.List" value="null"/>
+            </BindingProperty>
           </BindingProperties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

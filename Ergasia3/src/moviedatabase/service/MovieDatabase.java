@@ -14,7 +14,9 @@ import java.net.URLConnection;
 import org.json.*;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -30,25 +32,33 @@ public class MovieDatabase {
     
 
     //Το prefix της συνδεσης με το API
-    public static String mainUrl = "https://api.themoviedb.org/3/";
-    public static String genreUrl = "genre/movie/list?";
-    public static String movieUrl = "discover/movie?primary_release_date.gte=2000&with_genres=28%7C10749%7C878&page=";
+    private final static String mainUrl = "https://api.themoviedb.org/3/";
+    private final static String genreUrl = "genre/movie/list?";
+    private final static String movieUrl = "discover/movie?primary_release_date.gte=2000&with_genres=28%7C10749%7C878&page=";
     //to API key
-    public final static String api = "api_key=6c76adc6e7505b2ba74808e91301eb26";
-
+    private final static String api = "api_key=6c76adc6e7505b2ba74808e91301eb26";
+    
     /**
      * @param args the command line arguments
      */
     public static void restoreMovies() throws Exception {
             // TODO code application logic here
 
-        String webpage = mainUrl + genreUrl + api;  //Συνεννόνουμε την διεύθυνση για να πάρουμε τα genre        
-        JSONObject obj = new JSONObject(getText(webpage)); //Διάβαζουμε το json σε ένα νέο json object
-        JSONArray arr = obj.getJSONArray("genres"); //Από το json που έχει επιστραφεί κρατάμε τον πίνακα με τα genres
-        
         deleteFromDB(); //Καλούμε την μέθοδο που διαγράφει τους πίνακες της βάσης
         
-        for (int i=0;i<arr.length();i++) { //Για κάθε εγγραφή του πίνακα ελέγχουμε
+        getGenres(); //Καλούμε την μέθοδο που διαβάζει τις κατηγορίες από την διεύθυνση του movieDatabase
+        
+        getMovies(); //Καλούμε την μέθοδο που διαβάζει τις ταινίες από την διεύθυνση του movieDatabase
+        
+        JOptionPane.showMessageDialog(null, "Η ανάκτηση των δεδομένων ολοκληρώθηκε!"); //Εμφανίζουμε παράθυρο ότι έγινε η ανάγνωση από το site
+    }
+    
+    private static void getGenres() {
+        try {
+            String webpage = mainUrl + genreUrl + api;  //Συνεννόνουμε την διεύθυνση για να πάρουμε τα genre        
+            JSONObject obj = new JSONObject(getText(webpage)); //Διάβαζουμε το json σε ένα νέο json object
+            JSONArray arr = obj.getJSONArray("genres"); //Από το json που έχει επιστραφεί κρατάμε τον πίνακα με τα genres
+            for (int i=0;i<arr.length();i++) { //Για κάθε εγγραφή του πίνακα ελέγχουμε
                 //Αν το πεδίο id είναι κάποιο εκ των 28, 10749 ή 878
                 if (arr.getJSONObject(i).getInt("id") == 28 || arr.getJSONObject(i).getInt("id") == 10749 || arr.getJSONObject(i).getInt("id") == 878) {
                     //εκτυπώνουμε βοηθητικά στην κονσόλα τις επιλεγμένες κατηγορίες
@@ -59,11 +69,10 @@ public class MovieDatabase {
                     gen.setName(arr.getJSONObject(i).getString("name")); //Ορίζουμε το όνομα σύμφωνα με το τρέχον
                     addToDB(gen); //Καλούμε την μέθοδο για να κάνει την εισαγωγή στην βάση
                 }
+            }
+        } catch (Exception e) {
+            System.out.println("Something Went Wrong");
         }
-        
-        getMovies(); //Καλούμε την μέθοδο που διαβάζει τις ταινίες από την διεύθυνση του movieDatabase
-        
-        JOptionPane.showMessageDialog(null, "Η ανάκτηση των δεδομένων ολοκληρώθηκε!"); //Εμφανίζουμε παράθυρο ότι έγινε η ανάγνωση από το site
     }
     
     private static void getMovies() {
@@ -99,7 +108,7 @@ public class MovieDatabase {
                         int current = gen.getInt(z); //Αποθηκεύουμε το τρέχον Genre ID
                         //και ελέγχουμε αν είναι κάποιο από τα 3 που μας ενδιαφέρει
                         if (current == 28 || current == 10749 || current == 878) {
-                            Genre newGen = new Genre(current); //Τότε φτιάχνουμε ένα νέο genre με id από το τρέχον
+                            Genre newGen = findGenre(current); //Τότε φτιάχνουμε ένα νέο genre με id από το τρέχον
                             mov.setGenreId(newGen); //Και το προσθέτουμε στην τρέχουσα ταινία
                             break; //Και διακόπτουμε το for μιας που δεν μας ενδιαφέρει αν υπάγεται και σε άλλο
                         }
@@ -117,15 +126,29 @@ public class MovieDatabase {
         }
     }
     
-    private static void addToDB(Object gen) {
+    private static Genre findGenre(int genreId) {
+        Genre gen = new Genre();
+        EntityManager em; // Ο EntityManager
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
+        em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
+        try {
+            gen = em.find(Genre.class, genreId);
+        } catch (Exception e) {
+            System.out.println("");
+        }
+        return gen;
+    }
+    
+    private static void addToDB(Object obj) {
         EntityManager em; // Ο EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
 
         em = emf.createEntityManager(); //αρχικοποιώ τη μεταβλητή em
         
         em.getTransaction().begin(); //ξεκινάω μια καινούργια συναλλαγή για να αποθηκεύσω στη βάση δεδομένων τα αντικείμενα Genre που θα δημιουργήσουμε
-        em.persist(gen); // δημιουργώ τo query εισαγωγής
+        em.persist(obj); // δημιουργώ τo query εισαγωγής
         em.getTransaction().commit();// κάνω commit το query
+        em.close();
     }
     
     private static void deleteFromDB() {
@@ -138,6 +161,7 @@ public class MovieDatabase {
         em.createNamedQuery("FavoriteList.deleteAll").executeUpdate();
         em.createNamedQuery("Genre.deleteAll").executeUpdate();
         em.getTransaction().commit();
+        em.close();
     }
 
     public static String getText(String url) throws Exception {

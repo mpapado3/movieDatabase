@@ -20,10 +20,6 @@ import moviedatabase.entities.FavoriteList;
  */
 public class AddToFavorites {
     
-    public static void checkMovies(List<MoviePOJO> selectedMovies) {
-
-    }
-    
     public void addToFavorite(FavoriteList fav, Movie mov) {
         EntityManager em; // Ο EntityManager
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("MovieDatabasePU"); // Το EntityManagerFactory
@@ -34,6 +30,7 @@ public class AddToFavorites {
             mov2.setFavoriteListId(fav); // αποθηκεύουμε στην ταινία το favoriteList ID
             mov.setFavoriteListId(fav); 
             em.getTransaction().commit();// κάνω commit το query
+            em.close();
         } catch (Exception e) {
             System.out.println("");
         } 
@@ -49,6 +46,7 @@ public class AddToFavorites {
             mov2.setFavoriteListId(null); //θέτουμε το favorite list id της ταινίας σε null
             mov.setFavoriteListId(null);
             em.getTransaction().commit();// κάνω commit το query
+            em.close();
         } catch (Exception e) {
             System.out.println("");
         }
