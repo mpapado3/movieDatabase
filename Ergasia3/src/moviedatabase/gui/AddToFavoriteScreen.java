@@ -325,11 +325,16 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_yearTextInputKeyTyped
 
     private void removeFromListBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeFromListBtnActionPerformed
-        Movie selected = myList.get(movieTable.getSelectedRow()); //Δημιουργούμε βοηθητική μεταβλητή movie που θα αποθηκεύει την επιλεγμένη ταινία
-        if (selected.getFavoriteListId() != null) { //Ελέγχουμε αν το favorite list id της ταινίας δεν είναι null
-            favoriteListCombo.setSelectedIndex(-1); //και εφόσον δεν είναι θέτουμε το index του favorite list Combo στην τιμή -1
-            AddToFavorites addFav = new AddToFavorites(); //Δημιουργούμε νέο στιγμιότυπο από την κλάση AddToFavorites
-            addFav.removeFromFavorite(selected); //και καλείται η μέθοδος removeFromFavorite με την επιλεγμένη ταινία
+        Movie selected;
+        try {
+            selected = myList.get(movieTable.getSelectedRow()); //Δημιουργούμε βοηθητική μεταβλητή movie που θα αποθηκεύει την επιλεγμένη ταινία
+            if (selected.getFavoriteListId() != null) { //Ελέγχουμε αν το favorite list id της ταινίας δεν είναι null
+               favoriteListCombo.setSelectedIndex(-1); //και εφόσον δεν είναι θέτουμε το index του favorite list Combo στην τιμή -1
+               AddToFavorites addFav = new AddToFavorites(); //Δημιουργούμε νέο στιγμιότυπο από την κλάση AddToFavorites
+               addFav.removeFromFavorite(selected); //και καλείται η μέθοδος removeFromFavorite με την επιλεγμένη ταινία
+           }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Η ταινία δεν είναι σε κάποια λίστα!"); //Εμφανίζουμε ενημερωτικό παράθυρο 
         }
     }//GEN-LAST:event_removeFromListBtnActionPerformed
 
