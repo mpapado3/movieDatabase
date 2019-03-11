@@ -1,5 +1,6 @@
 package moviedatabase.gui;
 
+import java.awt.Color;
 import moviedatabase.entities.Genre;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
@@ -36,6 +37,7 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private Boolean textBool = false; //Μεταβλητή που θα χρησιμοποιηθεί για έλεγχο του Year Input
     private Boolean comboBool = false; //Μεταβλητή που θα χρησιμοποιηθεί αν έχει επιλεγεί genre
     private Boolean insert = false; //Μεταβλητή που δείχνει ότι έχει επιλεγεί κάποια γραμμή στον πίνακα
+    private Boolean searchEnable = false; //Μεταβλητή που ενεργοποιεί την αναζήτηση
     /**
      * Creates new form MainScreen
      */
@@ -59,8 +61,9 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     private void enableSearch() {
         //Γίνεται έλεγχος αν οι 2 μεταβλητές είναι true
         if (textBool == true && comboBool == true) {
-            //και εφόσον είναι true ενεργοποιεί το κουμπί search
-            searchBtn.setEnabled(true);
+            //και εφόσον είναι true ενεργοποιεί το κουμπί search και αλλάζει το χρώμα στο κουμπί
+            searchEnable = true;
+            searchBtn.setForeground(Color.black);
         }
     }
     
@@ -156,8 +159,8 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Έτος Κυκλοφορίας");
 
+        searchBtn.setForeground(new java.awt.Color(153, 153, 153));
         searchBtn.setText("Αναζήτηση");
-        searchBtn.setEnabled(false);
         searchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 searchBtnActionPerformed(evt);
@@ -289,21 +292,27 @@ public class AddToFavoriteScreen extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void searchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchBtnActionPerformed
-        TableModel movieTableModel = createTable(); //Δημιουργούμε ένα νέο πίνακα
-        movieTable.setModel(movieTableModel); //Ορίζουμε στον νέο αυτό πίνακα το table model
-        TableRowSorter<TableModel> sorter = new TableRowSorter<>(movieTable.getModel()); //Φτιάχνουμε ένα νέο sorter
-        sorter.setSortable(0, false); //Ορίζουμε ότι η πρώτη στήλη δεν θα κάνει sorting
-        sorter.setSortable(2, false); //Ορίζουμε ότι ούτε η 3η στήλη θα κάνει sorting
-        movieTable.setRowSorter(sorter); //Θέτουμε το sorter στον πίνακα που είχαμε δημιουργήσει
+        if (searchEnable) {
+            TableModel movieTableModel = createTable(); //Δημιουργούμε ένα νέο πίνακα
+            movieTable.setModel(movieTableModel); //Ορίζουμε στον νέο αυτό πίνακα το table model
+            TableRowSorter<TableModel> sorter = new TableRowSorter<>(movieTable.getModel()); //Φτιάχνουμε ένα νέο sorter
+            sorter.setSortable(0, false); //Ορίζουμε ότι η πρώτη στήλη δεν θα κάνει sorting
+            sorter.setSortable(2, false); //Ορίζουμε ότι ούτε η 3η στήλη θα κάνει sorting
+            movieTable.setRowSorter(sorter); //Θέτουμε το sorter στον πίνακα που είχαμε δημιουργήσει
+        } else {
+            JOptionPane.showMessageDialog(null, "Πρέπει να επιλεγεί κατηγορία και χρονολογία!"); //Εμφανίζουμε ενημερωτικό παράθυρο 
+        }
+        
     }//GEN-LAST:event_searchBtnActionPerformed
 
     private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
         genreCombo.setSelectedIndex(-1); //Ορίζουμε το index του comboBox στο -1 ώστε να είναι κενό
         favoriteListCombo.setSelectedIndex(-1); //Ορίζουμε το index -1 ώστε να μην δείχνει κάποια λίστα
         yearTextInput.setText(null); //Μηδενίζουμε το πεδίο που δίνουμε την χρονολογία
+        searchEnable = false; //Αφαιρούμε την δυνατότητα να γίνει αναζήτηση
+        searchBtn.setForeground(Color.gray);
         textBool = false; //Θέτουμε την μεταβλητή textBool ως false
         comboBool = false; //Θέτουμε και την μεταβλητή comboBool ως false
-        searchBtn.setEnabled(false); //Απενεργοποιούμε το κουμπί search
         myList = new ArrayList(); //Η λίστα με τις ταινίες μηδενίζεται
         String[] columnNames = {"Τίτλος ταινίας", "Βαθμολογία", "Περιγραφή"}; //Ορίζουμε ξανά τους τίτλους από τις στήλες του πίνακα
         TableModel movieTableModel = new MovieTableModel(myList,columnNames); //Δημιουργούμε ενα νέο tableModel με την κενή λίστα και τους τίτλους από τις στήλες
