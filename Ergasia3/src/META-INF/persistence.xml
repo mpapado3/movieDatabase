@@ -6,7 +6,7 @@
     <class>moviedatabase.entities.Movie</class>
     <class>moviedatabase.entities.Genre</class>
     <properties>
-      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/moviesPU"/>
+      <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/MovieDatabasePU"/>
       <property name="javax.persistence.jdbc.user" value="pli24"/>
       <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
       <property name="javax.persistence.jdbc.password" value="pli24"/>
